@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shopfloor Workflow Map</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Barlow:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0d0f;
+    --surface: #111518;
+    --surface2: #161b1f;
+    --border: #1e262c;
+    --border2: #263040;
+    --accent-blue: #2d9cdb;
+    --accent-orange: #f2994a;
+    --accent-cyan: #56ccf2;
+    --text: #d4e0e8;
+    --text-dim: #5a7080;
+    --text-mid: #8aa0b0;
+    --manual: #f2994a;
+    --digital-other: #56ccf2;
+    --digital-own: #2d9cdb;
+    --col-active: #1a3a52;
+    --col-hover: #132030;
+    --sol-bg: #0b1a10;
+    --sol-border: #1a4028;
+    --sol-accent: #4ade80;
+    --sol-accent2: #86efac;
+    --sol-tag-bg: rgba(74,222,128,0.08);
+    --sol-tag-border: rgba(74,222,128,0.28);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Barlow', sans-serif;
+    min-height: 100vh;
+    padding: 28px 32px 52px;
+    overflow-x: auto;
+  }
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image:
+      linear-gradient(rgba(45,156,219,0.02) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(45,156,219,0.02) 1px, transparent 1px);
+    background-size: 32px 32px;
+    pointer-events: none; z-index: 0;
+  }
+  .wrap { position: relative; z-index: 1; min-width: 1080px; }
+
+  /* ── PAGE HEADER ── */
+  .page-header {
+    display: flex; align-items: flex-start; justify-content: space-between;
+    margin-bottom: 18px; padding-bottom: 16px;
+    border-bottom: 1px solid var(--border2);
+  }
+  .page-header h1 { font-size: 1.45rem; font-weight: 800; color: #fff; letter-spacing: -0.3px; }
+  .subtitle {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.58rem; color: var(--accent-blue);
+    letter-spacing: 2px; text-transform: uppercase; margin-top: 5px;
+  }
+  .header-right { display: flex; flex-direction: column; align-items: flex-end; gap: 10px; }
+
+  .legend {
+    display: flex; gap: 16px; align-items: center;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.55rem; letter-spacing: 0.5px; color: var(--text-mid);
+  }
+  .legend-item { display: flex; align-items: center; gap: 6px; }
+  .lswatch { width: 22px; height: 3px; border-radius: 2px; }
+  .lswatch.manual { background: var(--manual); }
+  .lswatch.digital-other { background: var(--digital-other); }
+  .lswatch.digital-own { background: var(--digital-own); }
+
+  /* ── SOLUTION TOGGLE BUTTON ── */
+  .toggle-btn {
+    display: flex; align-items: center; gap: 8px;
+    padding: 6px 14px;
+    border: 1px solid var(--sol-border);
+    border-radius: 4px;
+    background: var(--sol-bg);
+    color: var(--sol-accent);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.58rem; letter-spacing: 1.5px; text-transform: uppercase;
+    cursor: pointer; transition: all 0.2s;
+  }
+  .toggle-btn:hover { border-color: var(--sol-accent); background: rgba(74,222,128,0.08); }
+  .toggle-btn.on { background: rgba(74,222,128,0.1); border-color: var(--sol-accent); }
+  .tdot {
+    width: 8px; height: 8px; border-radius: 50%;
+    border: 1px solid var(--sol-accent);
+    background: transparent; transition: background 0.2s;
+  }
+  .toggle-btn.on .tdot { background: var(--sol-accent); box-shadow: 0 0 5px var(--sol-accent); }
+
+  /* ── DI BANNER ── */
+  .di-banner {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.56rem; letter-spacing: 2.5px; text-transform: uppercase;
+    color: var(--accent-blue); opacity: 0.6;
+    margin-bottom: 4px;
+    padding-left: 80px; /* aligns with column area */
+    text-align: left;
+  }
+
+  /* ── MAIN LAYOUT ── */
+  /* Uses a CSS grid so row-labels and column area are siblings,
+     sharing the same row heights automatically */
+  .grid-outer {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+  }
+
+  /* ── LEFT: row labels ── */
+  .row-labels {
+    display: grid;
+    /* rows: [stage-header height auto] [action-cell flex 1] [team-cell 52px] */
+    grid-template-rows: auto 1fr 52px;
+  }
+  .rl-spacer {
+    background: transparent;
+    border-right: 1px solid var(--border2);
+    border-bottom: none;
+  }
+  .rl-cell {
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.52rem; font-weight: 600;
+    letter-spacing: 2px; text-transform: uppercase;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-right: 1px solid var(--border2);
+    border-top: none;
+  }
+  .rl-cell.actions { color: var(--accent-blue); }
+  .rl-cell.teams { color: var(--text-dim); }
+
+  /* ── RIGHT: stage headers + columns ── */
+  .col-area {
+    display: grid;
+    /* rows: stage-headers | action-cells | team-cells */
+    grid-template-rows: auto 1fr 52px;
+  }
+
+  /* stage header row */
+  .stage-headers {
+    display: flex;
+    grid-row: 1;
+  }
+  .stage-header {
+    flex: 1;
+    text-align: center;
+    padding: 8px 5px 7px;
+    font-size: 0.58rem; font-weight: 700;
+    letter-spacing: 0.4px; text-transform: uppercase;
+    color: var(--text-dim);
+    border: 1px solid var(--border); border-right: none;
+    background: var(--surface);
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s, border-color 0.2s;
+    line-height: 1.4;
+  }
+  .stage-header:last-child { border-right: 1px solid var(--border); }
+  .stage-header:hover { background: var(--col-hover); color: var(--text); }
+  .stage-header.active {
+    background: var(--col-active); color: var(--accent-cyan);
+    border-color: var(--accent-blue); border-bottom-color: var(--col-active);
+    z-index: 2;
+  }
+  .stage-num {
+    display: block;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.44rem; color: var(--text-dim); margin-bottom: 3px;
+  }
+  .stage-header.active .stage-num { color: var(--accent-blue); }
+
+  /* action cells row */
+  .action-row {
+    display: flex;
+    grid-row: 2;
+    border: 1px solid var(--border); border-top: none;
+  }
+  .col {
+    flex: 1;
+    border-right: 1px solid var(--border);
+    cursor: pointer;
+    transition: background 0.18s;
+    padding: 12px 9px;
+    font-size: 0.65rem; line-height: 1.6;
+    color: var(--text-mid);
+    position: relative;
+  }
+  .col:last-child { border-right: none; }
+  .col:hover { background: var(--col-hover); }
+  .col.active { background: var(--col-active); outline: 1px solid var(--accent-blue); outline-offset: -1px; }
+  .col p { margin-bottom: 5px; }
+
+  /* team cells row */
+  .team-row {
+    display: flex;
+    grid-row: 3;
+    border: 1px solid var(--border); border-top: none;
+  }
+  .team-cell {
+    flex: 1;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.57rem; font-weight: 700;
+    letter-spacing: 0.7px; text-transform: uppercase;
+    color: var(--text-mid);
+    background: var(--surface2);
+    border-right: 1px solid var(--border);
+    text-align: center; padding: 0 4px; line-height: 1.3;
+  }
+  .team-cell:last-child { border-right: none; }
+  .team-cell.shopfloor { color: var(--accent-orange); background: rgba(242,153,74,0.055); }
+
+  /* ── TOOL TAGS ── */
+  .tool {
+    display: inline;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.54rem; padding: 1px 5px; border-radius: 2px; white-space: nowrap;
+  }
+  .tool.manual { color: var(--manual); background: rgba(242,153,74,0.1); border: 1px solid rgba(242,153,74,0.28); }
+  .tool.digital-other { color: var(--digital-other); background: rgba(86,204,242,0.07); border: 1px solid rgba(86,204,242,0.22); }
+  .tool.digital-own { color: var(--digital-own); background: rgba(45,156,219,0.09); border: 1px solid rgba(45,156,219,0.25); }
+  .arrow { font-size: 0.58rem; color: var(--text-dim); margin: 0 2px; }
+
+  /* ── SOLUTION CALLOUTS ── */
+  .sol-callout {
+    display: none; /* shown via body.sol-on */
+    margin-top: 10px;
+    padding: 8px 9px;
+    background: var(--sol-bg);
+    border: 1px solid var(--sol-border);
+    border-radius: 3px;
+    font-size: 0.58rem; line-height: 1.5;
+    color: var(--sol-accent2);
+  }
+  .sol-callout .sc-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.44rem; letter-spacing: 1.5px; text-transform: uppercase;
+    color: var(--sol-accent); margin-bottom: 4px;
+    display: flex; align-items: center; gap: 4px;
+  }
+  .sol-callout .sc-name {
+    font-weight: 700; font-size: 0.6rem; color: #fff; margin-bottom: 4px;
+  }
+  .sc-tech {
+    display: inline-block;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.46rem; padding: 2px 6px;
+    background: var(--sol-tag-bg); border: 1px solid var(--sol-tag-border);
+    border-radius: 2px; color: var(--sol-accent);
+    margin-top: 5px; margin-right: 3px;
+  }
+  body.sol-on .sol-callout { display: block; }
+
+  /* ── SPANNING ROWS ── */
+  .span-rows { margin-left: 80px; }
+  .span-row {
+    display: flex;
+    border: 1px solid var(--border); border-top: none;
+  }
+  .span-row-inner {
+    flex: 1; height: 34px;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--surface2);
+    font-size: 0.56rem; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.7px;
+    color: var(--text-mid); gap: 8px;
+  }
+
+  /* ── DETAIL PANEL ── */
+  .detail-panel {
+    margin-top: 20px; padding: 16px 20px;
+    background: var(--surface2);
+    border: 1px solid var(--border2);
+    border-left: 3px solid var(--accent-blue);
+    border-radius: 0 4px 4px 0;
+    transition: opacity 0.2s;
+  }
+  .dp-stage {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.5rem; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--accent-blue); margin-bottom: 5px;
+  }
+  .dp-title { font-size: 0.88rem; font-weight: 700; color: #fff; margin-bottom: 8px; }
+  .dp-body { font-size: 0.68rem; line-height: 1.72; color: var(--text-mid); }
+  .dp-body strong { color: var(--text); font-weight: 600; }
+
+  .dp-sol {
+    display: none;
+    margin-top: 14px; padding-top: 14px;
+    border-top: 1px solid var(--sol-border);
+    font-size: 0.68rem; line-height: 1.72; color: var(--sol-accent2);
+  }
+  .dp-sol-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.48rem; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--sol-accent); margin-bottom: 6px;
+  }
+  .dp-sol strong { color: #fff; font-weight: 600; }
+  body.sol-on .dp-sol { display: block; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- PAGE HEADER -->
+  <div class="page-header">
+    <div>
+      <h1>Shopfloor Workflow Map</h1>
+      <div class="subtitle">Manual · Digital · Persona Interactions · End-to-End</div>
+    </div>
+    <div class="header-right">
+      <div class="legend">
+        <div class="legend-item"><span class="lswatch manual"></span> Manual</div>
+        <div class="legend-item"><span class="lswatch digital-other"></span> Digital — 3rd Party</div>
+        <div class="legend-item"><span class="lswatch digital-own"></span> Digital — Own Suite</div>
+      </div>
+      <button class="toggle-btn" id="solToggle" onclick="toggleSolutions()">
+        <span class="tdot"></span> Solution Layer
+      </button>
+    </div>
+  </div>
+
+  <!-- DI BANNER -->
+  <div class="di-banner">↓ Digital Interfaces</div>
+
+  <!-- GRID -->
+  <div class="grid-outer">
+
+    <!-- Row labels -->
+    <div class="row-labels">
+      <div class="rl-spacer" id="rlSpacer"></div>
+      <div class="rl-cell actions">Actions</div>
+      <div class="rl-cell teams">Teams</div>
+    </div>
+
+    <!-- Col area -->
+    <div class="col-area">
+
+      <!-- Stage headers -->
+      <div class="stage-headers">
+        <div class="stage-header active" id="sh0" onclick="selectCol(0)"><span class="stage-num">01</span>Leads &amp; Conversions</div>
+        <div class="stage-header" id="sh1" onclick="selectCol(1)"><span class="stage-num">02</span>Preliminary Design &amp; Budget</div>
+        <div class="stage-header" id="sh2" onclick="selectCol(2)"><span class="stage-num">03</span>Approvals &amp; Pre-liminary Procurement</div>
+        <div class="stage-header" id="sh3" onclick="selectCol(3)"><span class="stage-num">04</span>Detailed Design</div>
+        <div class="stage-header" id="sh4" onclick="selectCol(4)"><span class="stage-num">05</span>Switchboard Configuration</div>
+        <div class="stage-header" id="sh5" onclick="selectCol(5)"><span class="stage-num">06</span>BOM Ordering</div>
+        <div class="stage-header" id="sh6" onclick="selectCol(6)"><span class="stage-num">07</span>Engineering &amp; Build</div>
+        <div class="stage-header" id="sh7" onclick="selectCol(7)"><span class="stage-num">08</span>Test &amp; Commission</div>
+      </div>
+
+      <!-- Action cells -->
+      <div class="action-row">
+
+        <!-- 0: Leads -->
+        <div class="col active" id="col0" onclick="selectCol(0)">
+          <p>Opportunity detected &amp; registered with <strong>unique identifier</strong></p>
+          <p><span class="tool digital-other">CRM</span> <span class="arrow">→</span> <span class="tool digital-own">ERP</span></p>
+          <p style="margin-top:8px">Receives SLD</p>
+          <p><span class="tool manual">[email]</span></p>
+          <div class="sol-callout">
+            <div class="sc-label">◆ Solution Idea</div>
+            <div class="sc-name">Specification Reader</div>
+            <p>OCR scans SLDs + LLM reads technical specs to auto-generate preliminary BOM — eliminating manual intake.</p>
+            <span class="sc-tech">OCR</span><span class="sc-tech">LLM</span>
+          </div>
+        </div>
+
+        <!-- 1: Preliminary Design -->
+        <div class="col" id="col1" onclick="selectCol(1)">
+          <p>SLD to Offer <span class="tool manual">[PDF]</span></p>
+          <p>Technical — Dimensions, Footprint</p>
+          <p style="margin-top:6px">Commercial, Panel &amp; Feed-wise BOM</p>
+          <p><span class="tool manual">Spreadsheet</span> <span class="arrow">—</span> <span class="tool digital-other">BOM Tool</span></p>
+          <p style="margin-top:6px">General Arrangement drawing (optional)</p>
+          <p><span class="tool manual">Spreadsheet</span></p>
+          <div class="sol-callout">
+            <div class="sc-label">◆ Solution Idea</div>
+            <div class="sc-name">Panel Design Assistant</div>
+            <p>LLM reads spec against design rules to auto-complete BOM &amp; validate panel design — days → hours.</p>
+            <span class="sc-tech">OCR</span><span class="sc-tech">LLM</span>
+          </div>
+        </div>
+
+        <!-- 2: Approvals & Procurement -->
+        <div class="col" id="col2" onclick="selectCol(2)">
+          <p>Purchase Order Sent &amp; Approval</p>
+          <p><span class="tool manual">[email]</span></p>
+          <p style="margin-top:8px">Sales Order booked</p>
+          <p><span class="tool digital-other">Quoting Tool</span> <span class="arrow">→</span> <span class="tool digital-own">ERP</span></p>
+          <p style="margin-top:8px">Long-lead / Critical components ordered</p>
+          <p><span class="tool digital-own">Vendor Portal</span></p>
+          <div class="sol-callout">
+            <div class="sc-label">◆ Solution Idea</div>
+            <div class="sc-name">Catalog Assist / Smartify</div>
+            <p>Algorithm surfaces cross-sell at order booking. LLM-assisted component selection as quoting tool plug-in.</p>
+            <span class="sc-tech">Algorithm</span><span class="sc-tech">LLM</span>
+          </div>
+        </div>
+
+        <!-- 3: Detailed Design -->
+        <div class="col" id="col3" onclick="selectCol(3)">
+          <p>Mechanical design — GA</p>
+          <p><span class="tool digital-other">Mechanical CAD</span></p>
+          <p style="margin-top:8px">Electrical design — Drawing, SLD, Schematics, BOM, Communication architecture</p>
+          <p><span class="tool digital-other">Electrical CAD</span></p>
+          <p style="margin-top:8px">Communication wiring</p>
+          <p><span class="tool manual">Manual technical sheets</span> &amp; instruction separately</p>
+          <div class="sol-callout">
+            <div class="sc-label">◆ Solution Idea</div>
+            <div class="sc-name">GA Locate + Draw Scan</div>
+            <p>OCR scans GA drawing vs. source. LLM auto-validates electrical design against rules before build.</p>
+            <span class="sc-tech">OCR</span><span class="sc-tech">LLM</span>
+          </div>
+        </div>
+
+        <!-- 4: Switchboard Config -->
+        <div class="col" id="col4" onclick="selectCol(4)">
+          <p style="color:var(--text-dim); font-style:italic; text-align:center; padding-top:32px;">— Handled upstream —</p>
+          <div class="sol-callout">
+            <div class="sc-label">◆ Solution Idea</div>
+            <div class="sc-name">Compliance Chatbot</div>
+            <p>LLM trained on quality standards provides instant compliance check &amp; tailor-made feedback during configuration review.</p>
+            <span class="sc-tech">LLM</span>
+          </div>
+        </div>
+
+        <!-- 5: BOM Ordering -->
+        <div class="col" id="col5" onclick="selectCol(5)">
+          <p>Complete remaining order</p>
+          <p><span class="tool digital-own">Vendor Portal</span></p>
+          <div class="sol-callout">
+            <div class="sc-label">◆ Solution Idea</div>
+            <div class="sc-name">Component AI Auditor</div>
+            <p>LLM validates component specs against approved supplier standards — flags non-conforming items before ordering.</p>
+            <span class="sc-tech">LLM</span>
+          </div>
+        </div>
+
+        <!-- 6: Engineering & Build -->
+        <div class="col" id="col6" onclick="selectCol(6)">
+          <p>Mechanical Assembly</p>
+          <p><span class="tool digital-other">Manufacturing Equipment</span></p>
+          <p style="margin-top:8px">Line Supervisor instructs on communication architecture &amp; wiring</p>
+          <p><span class="tool manual">[Manually]</span></p>
+          <div class="sol-callout">
+            <div class="sc-label">◆ Solution Idea · Piloted</div>
+            <div class="sc-name">AI Build Trainer</div>
+            <p>AR-guided step-by-step assembly via headset on shopfloor — replacing verbal instruction. Piloted with AR vendor to validate proof of concept.</p>
+            <span class="sc-tech">Augmented Reality</span>
+          </div>
+        </div>
+
+        <!-- 7: Test & Commission -->
+        <div class="col" id="col7" onclick="selectCol(7)">
+          <p><span class="tool manual">[Manual]</span> Quality check &amp; Inspection</p>
+          <p style="margin-top:8px">Updating firmware</p>
+          <p><span class="tool digital-other">Config. &amp; Test Software</span></p>
+          <div class="sol-callout">
+            <div class="sc-label">◆ Solution Idea · In Progress</div>
+            <div class="sc-name">Remote FAT Auditor + Mobile Commissioning</div>
+            <p>AR-based remote quality inspection + mobile tool for lean cloud commissioning. Target: &lt;30 min/panel.</p>
+            <span class="sc-tech">Augmented Reality</span><span class="sc-tech">Mobile</span>
+          </div>
+        </div>
+
+      </div><!-- /action-row -->
+
+      <!-- Team cells -->
+      <div class="team-row">
+        <div class="team-cell">Sales</div>
+        <div class="team-cell">Tendering</div>
+        <div class="team-cell">Procurement &amp; Finance</div>
+        <div class="team-cell">Design</div>
+        <div class="team-cell">Design</div>
+        <div class="team-cell">Procurement</div>
+        <div class="team-cell shopfloor">Shopfloor: Operator, QC</div>
+        <div class="team-cell shopfloor">Shopfloor: Operator, QC</div>
+      </div>
+
+    </div><!-- /col-area -->
+  </div><!-- /grid-outer -->
+
+  <!-- SPANNING ROWS -->
+  <div class="span-rows">
+    <div class="span-row">
+      <div class="span-row-inner">
+        TRACKING: Enquiry to Post-sales &nbsp;<span class="tool digital-own">ERP</span>
+      </div>
+    </div>
+    <div class="span-row">
+      <div class="span-row-inner">
+        PROJECT MANAGEMENT: Follow-up on execution, assign tasks &nbsp;<span class="tool digital-other">Project Management Tool</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- DETAIL PANEL -->
+  <div class="detail-panel" id="detailPanel">
+    <div class="dp-stage" id="dpStage">01 · Leads &amp; Conversions</div>
+    <div class="dp-title" id="dpTitle">Opportunity Registration &amp; Lead Intake</div>
+    <div class="dp-body" id="dpBody">
+      Opportunities are detected and registered using a <strong>unique identifier</strong> that flows CRM → ERP, creating a traceable thread from first contact through delivery. The SLD is received manually via email — the first friction point in an otherwise digital intake flow.<br><br>
+      <strong>Key challenge:</strong> The CRM-to-ERP handoff was manual and error-prone. No structured intake for SLD data — a gap I mapped as a priority input for the digital suite team.
+    </div>
+    <div class="dp-sol" id="dpSol">
+      <div class="dp-sol-label">◆ Solution I Ideated &amp; Vetted</div>
+      <span id="dpSolContent"></span>
+    </div>
+  </div>
+
+  <!-- CONTEXT FOOTER -->
+  <div style="margin-top:28px; padding-top:18px; border-top:1px solid var(--border2); font-family:'IBM Plex Mono',monospace; font-size:0.58rem; letter-spacing:0.5px; color:var(--text-dim); line-height:1.8;">
+    Built by Saichandar Brahadeesh — a full end-to-end audit of a connected-product manufacturing workflow (lead → delivery), mapping every manual vs. digital handoff across 8 stages and 7 functional teams. The "Solution Layer" toggle overlays AI-pilot concepts I personally ideated and, in two cases, took to vendor proof-of-concept. Anonymized to protect employer-confidential process details.
+    <br><br>
+    <a href="https://saichandarbrahadeesh.github.io" style="color:var(--accent-blue); text-decoration:none;">← Back to Portfolio</a>
+  </div>
+
+</div><!-- /wrap -->
+
+<script>
+const details = [
+  {
+    stage: "01 · Leads & Conversions",
+    title: "Opportunity Registration & Lead Intake",
+    body: `Opportunities detected & registered with a <strong>unique identifier</strong> flowing CRM → ERP. SLD received manually via email — first friction point in an otherwise digital flow.<br><br><strong>Key challenge:</strong> Manual CRM-to-ERP handoff, error-prone with no structured SLD intake.`,
+    sol: `<strong>Specification Reader</strong> — Proposed OCR to scan incoming SLDs combined with an LLM to parse technical specifications, auto-generating a preliminary BOM. Eliminates manual re-entry and reduces intake time from hours to minutes. Vetted feasibility with an AI vendor and internal digital team.`
+  },
+  {
+    stage: "02 · Preliminary Design & Budget",
+    title: "Tendering — Design, BOM & Costing",
+    body: `Tendering team translates the SLD into a technical offer using spreadsheets and a BOM tool. GA drawings produced optionally in a spreadsheet.<br><br><strong>Key challenge:</strong> Spreadsheet-heavy BOM creation introduced version control issues and rework loops across tendering cycles.`,
+    sol: `<strong>Panel Design Assistant</strong> — Proposed an LLM that reads technical specs against a design rules repository to auto-complete BOM and flag deviations before submission. Identified as a high-ROI opportunity to reduce tendering time from days to hours.`
+  },
+  {
+    stage: "03 · Approvals & Pre-liminary Procurement",
+    title: "Order Booking & Early Procurement",
+    body: `PO sent via email, sales order booked via quoting tool → ERP. Long-lead components ordered via vendor portal.<br><br><strong>Key challenge:</strong> Email-based PO approval had no tracking — downstream teams blind to status until ERP updated manually.`,
+    sol: `<strong>Catalog Assist / Smartify</strong> — Proposed a non-programmable algorithm to surface cross-sell opportunities at order booking, plus LLM-assisted component selection as a plug-in to the quoting tool for faster BOM generation.`
+  },
+  {
+    stage: "04 · Detailed Design",
+    title: "Mechanical & Electrical Engineering",
+    body: `Full mechanical GA in Mechanical CAD. Complete electrical package (SLD, schematics, BOM, communication architecture) in Electrical CAD. Wiring instructions distributed as printed manual sheets.<br><br><strong>Key challenge:</strong> Wiring architecture existed only on paper. Late-stage changes required manual redistribution to shopfloor — major source of assembly errors.`,
+    sol: `<strong>GA Locate + Draw Scan</strong> — Proposed OCR to scan GA drawings and compare against source design, combined with LLM auto-validation of electrical design against rules. Catches errors before they reach the build floor.`
+  },
+  {
+    stage: "05 · Switchboard Configuration",
+    title: "Configuration — Handled in Design Phase",
+    body: `Switchboard configuration is determined during detailed design. No structured digital handoff exists — configuration lives inside CAD output.<br><br><strong>Key challenge:</strong> No export from electrical CAD to shopfloor-readable instructions. Operators had to interpret engineering drawings directly.`,
+    sol: `<strong>Compliance Chatbot</strong> — Proposed an LLM trained on quality standards and design rules to give instant compliance checks and tailor-made feedback during configuration review — reducing reliance on expert interpretation.`
+  },
+  {
+    stage: "06 · BOM Ordering",
+    title: "Remaining Component Procurement",
+    body: `Residual BOM items ordered via vendor portal once engineering finalises. Split across two procurement stages.<br><br><strong>Key challenge:</strong> Inconsistency in what was ordered when impacted shopfloor scheduling and increased lead times.`,
+    sol: `<strong>Component AI Auditor</strong> — Proposed an LLM to validate component specs against approved supplier standards, flagging non-conforming items before ordering to reduce quality risk.`
+  },
+  {
+    stage: "07 · Engineering & Build",
+    title: "Shopfloor Assembly — Operator & QC",
+    body: `Mechanical assembly via manufacturing equipment. Line Supervisor verbally instructs operators on communication architecture and wiring — fully manual, person-dependent, zero digital reference.<br><br><strong>Key challenge:</strong> Highest-impact gap identified. Supervisor absence or miscommunication caused rework. This was my primary escalation to the digital suite team.`,
+    sol: `<strong>AI Build Trainer (Piloted)</strong> — Ideated and piloted an AR-guided assembly tool delivering step-by-step wiring instructions via a VR headset directly on the shopfloor. Worked with an AR technology vendor to validate the proof of concept. Most impactful initiative — decentralising expert knowledge from supervisors into a scalable digital format.`
+  },
+  {
+    stage: "08 · Test & Commission",
+    title: "Quality Check, Inspection & Firmware Update",
+    body: `Manual QC and inspection via checklist. Firmware updated using Config. & Test Software.<br><br><strong>Key challenge:</strong> Manual QC had no digital traceability — pass/fail data not captured in ERP, making post-delivery diagnosis difficult.`,
+    sol: `<strong>Remote FAT Auditor + Mobile Commissioning (In Progress)</strong> — Proposed AR-based remote quality inspection to replace costly on-site visits, plus a mobile commissioning tool targeting &lt;30 minutes per panel for lean cloud architectures. Actively working with an AR partner to build this out.`
+  }
+];
+
+let solOn = false;
+let activeIdx = 0;
+
+function toggleSolutions() {
+  solOn = !solOn;
+  document.body.classList.toggle('sol-on', solOn);
+  const btn = document.getElementById('solToggle');
+  btn.classList.toggle('on', solOn);
+  updatePanel(activeIdx);
+}
+
+function selectCol(i) {
+  for (let j = 0; j < 8; j++) {
+    document.getElementById('col' + j).classList.remove('active');
+    document.getElementById('sh' + j).classList.remove('active');
+  }
+  document.getElementById('col' + i).classList.add('active');
+  document.getElementById('sh' + i).classList.add('active');
+  activeIdx = i;
+  updatePanel(i);
+}
+
+function updatePanel(i) {
+  const d = details[i];
+  document.getElementById('dpStage').textContent = d.stage;
+  document.getElementById('dpTitle').textContent = d.title;
+  document.getElementById('dpBody').innerHTML = d.body;
+  document.getElementById('dpSolContent').innerHTML = d.sol;
+  const panel = document.getElementById('detailPanel');
+  panel.style.opacity = '0';
+  setTimeout(() => { panel.style.opacity = '1'; }, 60);
+}
+
+// Sync rl-spacer height with stage headers
+window.addEventListener('load', () => {
+  const sh = document.querySelector('.stage-headers');
+  document.getElementById('rlSpacer').style.height = sh.offsetHeight + 'px';
+});
+window.addEventListener('resize', () => {
+  const sh = document.querySelector('.stage-headers');
+  document.getElementById('rlSpacer').style.height = sh.offsetHeight + 'px';
+});
+</script>
+</body>
+</html>
