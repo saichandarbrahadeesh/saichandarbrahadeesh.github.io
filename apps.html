@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>I Build — Solo Apps · Saichandar Brahadeesh</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600;6..72,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d1117;
+    --surface: #12161d;
+    --surface2: #161b22;
+    --border: #262c36;
+    --border2: #30374a;
+    --text: #e6edf3;
+    --text-body: #d0d7de;    /* brighter body prose — used for readable paragraphs */
+    --muted: #8b949e;         /* labels, meta, timestamps — dimmer OK */
+    --muted2: #5c6573;
+    --accent: #4d8eff;
+    --accent-dim: rgba(77, 142, 255, 0.12);
+    --accent-border: rgba(77, 142, 255, 0.3);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    min-height: 100vh;
+    line-height: 1.5;
+  }
+
+  h1, h2, h3 { font-family: 'Newsreader', serif; }
+
+  .mono {
+    font-family: 'IBM Plex Mono', monospace;
+  }
+
+  a { color: inherit; }
+
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 48px; }
+
+  /* ── HEADER / NAV ── */
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(13, 17, 23, 0.85);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-inner {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 18px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .nav-name {
+    font-family: 'Newsreader', serif;
+    font-weight: 600;
+    font-size: 17px;
+    letter-spacing: 0.2px;
+  }
+
+  nav.links { display: flex; gap: 30px; }
+
+  nav.links a {
+    text-decoration: none;
+    color: var(--muted);
+    font-size: 13.5px;
+    font-weight: 500;
+    transition: color 0.2s;
+  }
+  nav.links a:hover { color: var(--text); }
+
+  /* ── HERO ── */
+  .hero {
+    padding: 90px 0 70px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .hero-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 6px 13px;
+    border-radius: 20px;
+    background: var(--accent-dim);
+    border: 1px solid var(--accent-border);
+    font-size: 12.5px;
+    color: var(--accent);
+    font-weight: 500;
+    margin-bottom: 28px;
+  }
+  .hero-status .dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+
+  .hero h1 {
+    font-size: 52px;
+    font-weight: 600;
+    line-height: 1.12;
+    letter-spacing: -0.5px;
+    margin-bottom: 18px;
+    max-width: 720px;
+  }
+
+  .hero .role-line {
+    font-size: 17px;
+    color: var(--text-body);
+    font-weight: 400;
+    margin-bottom: 30px;
+    max-width: 640px;
+    line-height: 1.7;
+  }
+
+  .hero .role-line strong { color: var(--text); font-weight: 600; }
+
+  .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    padding: 11px 20px;
+    border-radius: 7px;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+
+  .btn-primary {
+    background: var(--accent);
+    color: #0d1117;
+  }
+  .btn-primary:hover { background: #6ba0ff; }
+
+  .btn-secondary {
+    background: var(--surface2);
+    border: 1px solid var(--border2);
+    color: var(--text);
+  }
+  .btn-secondary:hover { border-color: var(--accent-border); }
+
+  .btn svg { width: 16px; height: 16px; flex-shrink: 0; }
+
+  /* ── SECTION SCAFFOLDING ── */
+  section { padding: 64px 0; border-bottom: 1px solid var(--border); }
+  section:last-of-type { border-bottom: none; }
+
+  .section-head { margin-bottom: 36px; }
+
+  .eyebrow {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11.5px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 10px;
+    display: block;
+  }
+
+  .section-head h2 {
+    font-size: 28px;
+    font-weight: 600;
+    letter-spacing: -0.3px;
+  }
+
+  .section-sub {
+    color: var(--muted);
+    font-size: 14.5px;
+    margin-top: 8px;
+    max-width: 560px;
+  }
+
+  /* ── ABOUT ── */
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: 56px;
+  }
+
+  .about-creds {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .cred-item {
+    padding: 14px 16px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+  }
+
+  .cred-item .cred-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10.5px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--muted2);
+    margin-bottom: 5px;
+  }
+  .cred-item .cred-value {
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  .about-text p {
+    font-size: 15px;
+    line-height: 1.85;
+    color: var(--text-body);
+    margin-bottom: 18px;
+  }
+
+  /* ── SKILLS ── */
+  .skills-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+  }
+
+  .skill-group h3 {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11.5px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--muted2);
+    font-weight: 600;
+    margin-bottom: 16px;
+  }
+
+  .pill-row { display: flex; flex-wrap: wrap; gap: 9px; }
+
+  .pill {
+    font-size: 13.5px;
+    font-weight: 500;
+    padding: 8px 15px;
+    border-radius: 7px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--text);
+  }
+
+  .pill.tool {
+    background: var(--accent-dim);
+    border-color: var(--accent-border);
+    color: var(--accent);
+    font-weight: 600;
+  }
+
+  /* ── WORK (PROJECTS) ── */
+  .work-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+
+  .work-card {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .work-card:hover {
+    border-color: var(--accent-border);
+    transform: translateY(-3px);
+  }
+
+  .work-thumb {
+    width: 100%;
+    height: 200px;
+    background: var(--surface);
+    overflow: hidden;
+    position: relative;
+  }
+  .work-thumb img {
+    width: 100%; height: 100%;
+    object-fit: cover; object-position: top;
+  }
+  .thumb-fallback {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    height: 100%; gap: 8px;
+    color: var(--muted2);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+  }
+  .thumb-fallback .icon { font-size: 26px; opacity: 0.5; }
+
+  .work-body { padding: 22px 24px; }
+
+  .work-meta {
+    display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap;
+  }
+  .tag {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    padding: 4px 9px;
+    border-radius: 4px;
+    background: var(--accent-dim);
+    border: 1px solid var(--accent-border);
+    color: var(--accent);
+    font-weight: 600;
+  }
+  .tag.time {
+    background: var(--surface);
+    border-color: var(--border2);
+    color: var(--muted);
+  }
+
+  .work-card h3 { font-size: 18px; font-weight: 600; margin-bottom: 10px; }
+
+  .work-card p {
+    font-size: 13.5px;
+    line-height: 1.7;
+    color: var(--text-body);
+    margin-bottom: 18px;
+  }
+
+  .work-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--accent);
+    text-decoration: none;
+  }
+  .work-link:hover { text-decoration: underline; }
+
+  /* ── CASE STUDIES ── */
+  .case-list { display: flex; flex-direction: column; gap: 20px; }
+
+  .case-card {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 28px 30px;
+  }
+
+  .case-tag-row { display: flex; gap: 8px; margin-bottom: 14px; flex-wrap: wrap; }
+
+  .case-card h3 {
+    font-size: 19px;
+    font-weight: 600;
+    margin-bottom: 6px;
+    line-height: 1.3;
+  }
+
+  .case-context {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11.5px;
+    color: var(--muted2);
+    margin-bottom: 18px;
+  }
+
+  .case-block { margin-bottom: 14px; }
+  .case-block:last-of-type { margin-bottom: 18px; }
+
+  .case-block .case-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10.5px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 5px;
+  }
+
+  .case-block p { font-size: 14.5px; line-height: 1.75; color: var(--text-body); }
+  .case-block ul { list-style: none; padding: 0; margin: 4px 0 0; }
+  .case-block ul li {
+    font-size: 14.5px;
+    line-height: 1.75;
+    color: var(--text-body);
+    padding-left: 18px;
+    position: relative;
+    margin-bottom: 6px;
+  }
+  .case-block ul li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+    font-weight: 700;
+  }
+  .case-block strong { color: var(--text); font-weight: 600; }
+
+  .case-principle {
+    margin-top: 22px;
+    padding: 16px 18px;
+    border-left: 2px solid var(--accent);
+    background: rgba(77, 142, 255, 0.05);
+    border-radius: 0 6px 6px 0;
+  }
+  .case-principle .case-principle-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10.5px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 6px;
+  }
+  .case-principle p {
+    font-size: 14.5px;
+    line-height: 1.65;
+    color: var(--text);
+    font-style: italic;
+    margin: 0;
+  }
+
+  .case-outcomes { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; }
+
+  .outcome-chip {
+    font-size: 12.5px;
+    font-weight: 600;
+    padding: 6px 12px;
+    border-radius: 6px;
+    background: var(--accent-dim);
+    border: 1px solid var(--accent-border);
+    color: var(--accent);
+  }
+
+  .case-card .case-impact {
+    font-size: 13.5px;
+    color: var(--text);
+    font-weight: 500;
+    margin-bottom: 4px;
+  }
+
+  /* ── CASE VISUAL: shared frame ── */
+  .case-visual {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 22px 22px 16px;
+    margin: 18px 0 22px;
+  }
+  .case-visual-embed { padding: 0; position: relative; overflow: hidden; }
+  .case-visual-embed .case-visual-label {
+    padding: 14px 18px 6px;
+    margin-bottom: 0;
+  }
+  .case-visual-placeholder {
+    background: repeating-linear-gradient(
+      135deg,
+      rgba(77, 142, 255, 0.03),
+      rgba(77, 142, 255, 0.03) 8px,
+      transparent 8px,
+      transparent 16px
+    ), var(--surface);
+    border-style: dashed;
+    border-color: var(--border2);
+  }
+  .placeholder-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 48px 20px;
+    gap: 14px;
+  }
+  .placeholder-icon {
+    font-size: 40px;
+    color: var(--accent);
+    opacity: 0.6;
+    line-height: 1;
+  }
+  .placeholder-text {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 1px;
+    color: var(--muted);
+    text-align: center;
+  }
+  .case-iframe {
+    width: 100%;
+    height: 720px;
+    border: 0;
+    background: var(--bg);
+    display: block;
+  }
+  .case-iframe-fullscreen {
+    position: absolute;
+    top: 12px;
+    right: 14px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10.5px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--accent);
+    background: rgba(13, 17, 23, 0.85);
+    border: 1px solid var(--accent-border);
+    padding: 5px 10px;
+    border-radius: 5px;
+    transition: background 0.15s;
+  }
+  .case-iframe-fullscreen:hover { background: rgba(77, 142, 255, 0.15); }
+  @media (max-width: 860px) {
+    .case-iframe { height: 560px; }
+  }
+  .case-visual-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: var(--muted2);
+    margin-bottom: 14px;
+  }
+  .case-visual svg { width: 100%; height: auto; display: block; }
+  .viz-node-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10.5px;
+    fill: var(--muted);
+  }
+  .viz-node-title {
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    fill: var(--text);
+  }
+  .viz-small {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    fill: var(--muted2);
+  }
+
+  .timeline {
+    position: relative;
+    padding-left: 28px;
+  }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 5px;
+    top: 6px;
+    bottom: 6px;
+    width: 1.5px;
+    background: var(--border2);
+  }
+
+  .tl-item {
+    position: relative;
+    padding-bottom: 40px;
+  }
+  .tl-item:last-child { padding-bottom: 0; }
+
+  .tl-item::before {
+    content: '';
+    position: absolute;
+    left: -28px;
+    top: 4px;
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    background: var(--bg);
+    border: 2px solid var(--accent);
+  }
+
+  .tl-date {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11.5px;
+    color: var(--muted2);
+    letter-spacing: 0.5px;
+    margin-bottom: 6px;
+  }
+
+  .tl-role {
+    font-size: 17px;
+    font-weight: 600;
+    margin-bottom: 2px;
+  }
+
+  .tl-org {
+    font-size: 13.5px;
+    color: var(--accent);
+    font-weight: 500;
+    margin-bottom: 12px;
+  }
+
+  .tl-bullets {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .tl-bullets li {
+    font-size: 14px;
+    line-height: 1.65;
+    color: var(--muted);
+    padding-left: 16px;
+    position: relative;
+  }
+  .tl-bullets li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: var(--muted2);
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    padding: 40px 0 60px;
+  }
+  .footer-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  .footer-text {
+    font-size: 13px;
+    color: var(--muted2);
+    line-height: 1.7;
+  }
+  .footer-links { display: flex; gap: 20px; }
+  .footer-links a {
+    font-size: 13px;
+    color: var(--muted);
+    text-decoration: none;
+  }
+  .footer-links a:hover { color: var(--accent); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 860px) {
+    .wrap, .nav-inner { padding-left: 24px; padding-right: 24px; }
+    nav.links { display: none; }
+    .hero { padding: 60px 0 50px; }
+    .hero h1 { font-size: 36px; }
+    .about-grid { grid-template-columns: 1fr; gap: 32px; }
+    .skills-grid { grid-template-columns: 1fr; gap: 28px; }
+    .work-grid { grid-template-columns: 1fr; }
+    section { padding: 48px 0; }
+  }
+
+  /* Active nav state */
+  nav.links a.active { color: var(--text); font-weight: 600; }
+  nav.links a.nav-linkedin { color: var(--accent); }
+
+  /* Hub tiles on home page */
+  .hub {
+    padding: 40px 0 80px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 24px;
+  }
+  .hub-tile {
+    display: block;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 36px 32px 32px;
+    text-decoration: none;
+    color: var(--text);
+    transition: transform 0.25s, border-color 0.25s, box-shadow 0.25s;
+    position: relative;
+    overflow: hidden;
+  }
+  .hub-tile.disabled {
+    opacity: 0.65;
+    pointer-events: none;
+    cursor: default;
+  }
+  .hub-tile:not(.disabled):hover {
+    transform: translateY(-4px);
+    border-color: var(--accent-border);
+    box-shadow: 0 20px 60px rgba(77, 142, 255, 0.08);
+  }
+  .hub-tile .hub-number {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: var(--muted);
+    margin-bottom: 18px;
+  }
+  .hub-tile h2 {
+    font-family: 'Newsreader', serif;
+    font-size: 34px;
+    font-weight: 600;
+    letter-spacing: -0.5px;
+    margin-bottom: 12px;
+  }
+  .hub-tile p {
+    font-size: 14.5px;
+    line-height: 1.7;
+    color: var(--text-body);
+    margin-bottom: 22px;
+  }
+  .hub-tile .hub-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--accent);
+    font-family: 'IBM Plex Mono', monospace;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+  .hub-tile .hub-cta-soon {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--muted);
+    font-family: 'IBM Plex Mono', monospace;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    padding: 5px 10px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+  }
+
+  /* Page intro (for case-studies.html, apps.html) */
+  .page-intro {
+    padding: 70px 0 40px;
+    border-bottom: 1px solid var(--border);
+  }
+  .page-intro .eyebrow-large {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11.5px;
+    letter-spacing: 2px;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+  .page-intro h1 {
+    font-size: 44px;
+    font-weight: 600;
+    line-height: 1.15;
+    letter-spacing: -0.5px;
+    margin-bottom: 16px;
+    max-width: 720px;
+  }
+  .page-intro p {
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--text-body);
+    max-width: 640px;
+  }
+
+  @media (max-width: 860px) {
+    .hub { grid-template-columns: 1fr; gap: 16px; padding: 20px 0 60px; }
+    .hub-tile { padding: 28px 24px 26px; }
+    .hub-tile h2 { font-size: 28px; }
+    .page-intro { padding: 40px 0 24px; }
+    .page-intro h1 { font-size: 32px; }
+  }
+
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="nav-inner">
+    <a href="index.html" class="nav-name">Saichandar Brahadeesh</a>
+    <nav class="links">
+      <a href="index.html">Home</a>
+      <a href="case-studies.html">I Solve</a>
+      <a href="https://www.linkedin.com/in/saichandarbrahadeesh" target="_blank" class="nav-linkedin">LinkedIn</a>
+    </nav>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <section class="page-intro">
+    <div class="eyebrow-large">I Build · Solo Apps</div>
+    <h1>Working products, shipped solo with AI.</h1>
+    <p>Four apps, four problems I spotted in my own life or heard from someone else. The fastest went from problem to shipping in one hour. All built with Claude and Base44.</p>
+  </section>
+
+  <!-- WORK / PROJECTS -->
+  <section id="work">
+    <div class="work-grid">
+
+      <div class="work-card">
+        <div class="work-thumb">
+          <img src="brand-hue-screenshot.png" alt="Brand Hue Lab"
+            onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'thumb-fallback\'><div class=\'icon\'>🎨</div><span>brand-hue-screenshot.png</span></div>'" />
+        </div>
+        <div class="work-body">
+          <div class="work-meta">
+            <span class="tag">Branding Tool</span>
+            <span class="tag time">Built in 7 days</span>
+          </div>
+          <h3>Brand Hue Lab</h3>
+          <p>
+            Generates a complete, science-backed design system — colors, typography, layouts, tone —
+            from your emotions and business type. Grounded in color-emotion research and archetype
+            psychology. No design degree needed.
+          </p>
+          <a href="https://brand-hue-lab.base44.app/Landing" target="_blank" class="work-link">View Live →</a>
+        </div>
+      </div>
+
+      <div class="work-card">
+        <div class="work-thumb">
+          <img src="focus-sound-screenshot.png" alt="Focus Mantra"
+            onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'thumb-fallback\'><div class=\'icon\'>🎧</div><span>focus-sound-screenshot.png</span></div>'" />
+        </div>
+        <div class="work-body">
+          <div class="work-meta">
+            <span class="tag">Productivity</span>
+            <span class="tag time">Built in 2 days</span>
+          </div>
+          <h3>Focus Mantra</h3>
+          <p>
+            Science-backed focus music, personalized for your personality, task, and environment.
+            A short questionnaire returns a curated sonic environment designed to put you in the zone.
+          </p>
+          <a href="https://focus-sound-flow.base44.app/Questionnaire" target="_blank" class="work-link">View Live →</a>
+        </div>
+      </div>
+
+      <div class="work-card">
+        <div class="work-thumb">
+          <img src="expat-invest-screenshot.png" alt="Expat Invest Compare"
+            onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'thumb-fallback\'><div class=\'icon\'>💹</div><span>expat-invest-screenshot.png</span></div>'" />
+        </div>
+        <div class="work-body">
+          <div class="work-meta">
+            <span class="tag">Finance Tool</span>
+            <span class="tag time">Built in 1 hour</span>
+          </div>
+          <h3>Expat Invest Compare</h3>
+          <p>
+            Compares net ROI of Indian Fixed Deposits vs. French Livret A for expat Indians —
+            accounting for INR/EUR depreciation and fees. A real decision, made simple.
+          </p>
+          <a href="https://expat-invest-compare.base44.app" target="_blank" class="work-link">View Live →</a>
+        </div>
+      </div>
+
+      <div class="work-card">
+        <div class="work-thumb">
+          <img src="formflow-screenshot.png" alt="FormFlow"
+            onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'thumb-fallback\'><div class=\'icon\'>🏋️</div><span>formflow-screenshot.png</span></div>'" />
+        </div>
+        <div class="work-body">
+          <div class="work-meta">
+            <span class="tag">Fitness Tool</span>
+            <span class="tag time">Built in 2 hours</span>
+          </div>
+          <h3>FormFlow</h3>
+          <p>
+            Lets solo gym trainers curate and assign workout plans, while trainees log every set in
+            under 5 seconds. Less admin for the trainer. Less friction for the trainee.
+          </p>
+          <a href="https://screeching-form-flow-pro.base44.app/" target="_blank" class="work-link">View Live →</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+</div>
+
+<footer>
+  <div class="wrap footer-inner">
+    <div class="footer-text">Saichandar Brahadeesh</div>
+  </div>
+</footer>
+
+</body>
+</html>

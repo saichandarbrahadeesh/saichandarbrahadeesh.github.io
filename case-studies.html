@@ -1,0 +1,998 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>I Solve — Case Studies · Saichandar Brahadeesh</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600;6..72,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d1117;
+    --surface: #12161d;
+    --surface2: #161b22;
+    --border: #262c36;
+    --border2: #30374a;
+    --text: #e6edf3;
+    --text-body: #d0d7de;    /* brighter body prose — used for readable paragraphs */
+    --muted: #8b949e;         /* labels, meta, timestamps — dimmer OK */
+    --muted2: #5c6573;
+    --accent: #4d8eff;
+    --accent-dim: rgba(77, 142, 255, 0.12);
+    --accent-border: rgba(77, 142, 255, 0.3);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    min-height: 100vh;
+    line-height: 1.5;
+  }
+
+  h1, h2, h3 { font-family: 'Newsreader', serif; }
+
+  .mono {
+    font-family: 'IBM Plex Mono', monospace;
+  }
+
+  a { color: inherit; }
+
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 48px; }
+
+  /* ── HEADER / NAV ── */
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(13, 17, 23, 0.85);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-inner {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 18px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .nav-name {
+    font-family: 'Newsreader', serif;
+    font-weight: 600;
+    font-size: 17px;
+    letter-spacing: 0.2px;
+  }
+
+  nav.links { display: flex; gap: 30px; }
+
+  nav.links a {
+    text-decoration: none;
+    color: var(--muted);
+    font-size: 13.5px;
+    font-weight: 500;
+    transition: color 0.2s;
+  }
+  nav.links a:hover { color: var(--text); }
+
+  /* ── HERO ── */
+  .hero {
+    padding: 90px 0 70px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .hero-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 6px 13px;
+    border-radius: 20px;
+    background: var(--accent-dim);
+    border: 1px solid var(--accent-border);
+    font-size: 12.5px;
+    color: var(--accent);
+    font-weight: 500;
+    margin-bottom: 28px;
+  }
+  .hero-status .dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+
+  .hero h1 {
+    font-size: 52px;
+    font-weight: 600;
+    line-height: 1.12;
+    letter-spacing: -0.5px;
+    margin-bottom: 18px;
+    max-width: 720px;
+  }
+
+  .hero .role-line {
+    font-size: 17px;
+    color: var(--text-body);
+    font-weight: 400;
+    margin-bottom: 30px;
+    max-width: 640px;
+    line-height: 1.7;
+  }
+
+  .hero .role-line strong { color: var(--text); font-weight: 600; }
+
+  .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    padding: 11px 20px;
+    border-radius: 7px;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+
+  .btn-primary {
+    background: var(--accent);
+    color: #0d1117;
+  }
+  .btn-primary:hover { background: #6ba0ff; }
+
+  .btn-secondary {
+    background: var(--surface2);
+    border: 1px solid var(--border2);
+    color: var(--text);
+  }
+  .btn-secondary:hover { border-color: var(--accent-border); }
+
+  .btn svg { width: 16px; height: 16px; flex-shrink: 0; }
+
+  /* ── SECTION SCAFFOLDING ── */
+  section { padding: 64px 0; border-bottom: 1px solid var(--border); }
+  section:last-of-type { border-bottom: none; }
+
+  .section-head { margin-bottom: 36px; }
+
+  .eyebrow {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11.5px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 10px;
+    display: block;
+  }
+
+  .section-head h2 {
+    font-size: 28px;
+    font-weight: 600;
+    letter-spacing: -0.3px;
+  }
+
+  .section-sub {
+    color: var(--muted);
+    font-size: 14.5px;
+    margin-top: 8px;
+    max-width: 560px;
+  }
+
+  /* ── ABOUT ── */
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: 56px;
+  }
+
+  .about-creds {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .cred-item {
+    padding: 14px 16px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+  }
+
+  .cred-item .cred-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10.5px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--muted2);
+    margin-bottom: 5px;
+  }
+  .cred-item .cred-value {
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  .about-text p {
+    font-size: 15px;
+    line-height: 1.85;
+    color: var(--text-body);
+    margin-bottom: 18px;
+  }
+
+  /* ── SKILLS ── */
+  .skills-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+  }
+
+  .skill-group h3 {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11.5px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--muted2);
+    font-weight: 600;
+    margin-bottom: 16px;
+  }
+
+  .pill-row { display: flex; flex-wrap: wrap; gap: 9px; }
+
+  .pill {
+    font-size: 13.5px;
+    font-weight: 500;
+    padding: 8px 15px;
+    border-radius: 7px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--text);
+  }
+
+  .pill.tool {
+    background: var(--accent-dim);
+    border-color: var(--accent-border);
+    color: var(--accent);
+    font-weight: 600;
+  }
+
+  /* ── WORK (PROJECTS) ── */
+  .work-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+
+  .work-card {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .work-card:hover {
+    border-color: var(--accent-border);
+    transform: translateY(-3px);
+  }
+
+  .work-thumb {
+    width: 100%;
+    height: 200px;
+    background: var(--surface);
+    overflow: hidden;
+    position: relative;
+  }
+  .work-thumb img {
+    width: 100%; height: 100%;
+    object-fit: cover; object-position: top;
+  }
+  .thumb-fallback {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    height: 100%; gap: 8px;
+    color: var(--muted2);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+  }
+  .thumb-fallback .icon { font-size: 26px; opacity: 0.5; }
+
+  .work-body { padding: 22px 24px; }
+
+  .work-meta {
+    display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap;
+  }
+  .tag {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    padding: 4px 9px;
+    border-radius: 4px;
+    background: var(--accent-dim);
+    border: 1px solid var(--accent-border);
+    color: var(--accent);
+    font-weight: 600;
+  }
+  .tag.time {
+    background: var(--surface);
+    border-color: var(--border2);
+    color: var(--muted);
+  }
+
+  .work-card h3 { font-size: 18px; font-weight: 600; margin-bottom: 10px; }
+
+  .work-card p {
+    font-size: 13.5px;
+    line-height: 1.7;
+    color: var(--text-body);
+    margin-bottom: 18px;
+  }
+
+  .work-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--accent);
+    text-decoration: none;
+  }
+  .work-link:hover { text-decoration: underline; }
+
+
+  /* ── CASE STUDIES ── */
+  .case-list { display: flex; flex-direction: column; gap: 22px; }
+
+  .case-card {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 30px 32px;
+  }
+
+  .case-tag-row { display: flex; gap: 8px; margin-bottom: 14px; flex-wrap: wrap; }
+
+  .case-card h3 {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 6px;
+    line-height: 1.3;
+    color: var(--text);
+  }
+
+  .case-context {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11.5px;
+    color: var(--muted);
+    margin-bottom: 20px;
+  }
+
+  .case-block { margin-bottom: 20px; }
+  .case-block:last-of-type { margin-bottom: 22px; }
+
+  .case-block .case-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 10px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .case-block p { font-size: 14.5px; line-height: 1.8; color: var(--text-body); margin-bottom: 10px; }
+  .case-block p:last-child { margin-bottom: 0; }
+
+  /* Powerful marker style — solid accent tick, not an arrow glyph */
+  .case-block ul { list-style: none; padding: 0; margin: 6px 0 0; }
+  .case-block ul li {
+    font-size: 14.5px;
+    line-height: 1.75;
+    color: var(--text-body);
+    padding-left: 20px;
+    position: relative;
+    margin-bottom: 10px;
+    border-left: 2px solid var(--accent-border);
+    padding-left: 16px;
+  }
+  .case-block ul li:last-child { margin-bottom: 0; }
+  .case-block strong { color: var(--text); font-weight: 700; }
+
+  .case-principle {
+    margin-top: 22px;
+    padding: 18px 20px;
+    border-left: 3px solid var(--accent);
+    background: rgba(77, 142, 255, 0.06);
+    border-radius: 0 8px 8px 0;
+  }
+  .case-principle .case-principle-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 8px;
+  }
+  .case-principle p {
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--text);
+    font-style: italic;
+    margin: 0;
+  }
+
+  .case-outcomes { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; }
+  .outcome-chip {
+    font-size: 12.5px;
+    font-weight: 600;
+    padding: 6px 12px;
+    border-radius: 6px;
+    background: var(--accent-dim);
+    border: 1px solid var(--accent-border);
+    color: var(--accent);
+  }
+
+  /* ── CASE VISUAL: shared frame ── */
+  .case-visual {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 22px 22px 16px;
+    margin: 0 0 24px;
+  }
+  .case-visual-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 14px;
+  }
+  .case-visual svg { width: 100%; height: auto; display: block; }
+  .viz-node-label { font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; fill: var(--text-body); }
+  .viz-node-title { font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 600; fill: var(--text); }
+  .viz-small { font-family: 'IBM Plex Mono', monospace; font-size: 9px; fill: var(--muted); }
+
+  .case-visual-embed { padding: 0; position: relative; overflow: hidden; }
+  .case-visual-embed .case-visual-label { padding: 14px 18px 6px; margin-bottom: 0; }
+  .case-iframe { width: 100%; height: 720px; border: 0; background: var(--bg); display: block; }
+  .case-iframe-fullscreen {
+    position: absolute; top: 12px; right: 14px;
+    font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; letter-spacing: 1px; text-transform: uppercase;
+    text-decoration: none; color: var(--accent);
+    background: rgba(13, 17, 23, 0.85); border: 1px solid var(--accent-border);
+    padding: 5px 10px; border-radius: 5px; transition: background 0.15s;
+  }
+  .case-iframe-fullscreen:hover { background: rgba(77, 142, 255, 0.15); }
+
+  @media (max-width: 860px) {
+    .case-iframe { height: 560px; }
+    .case-card { padding: 22px 20px; }
+  }
+
+  /* ── PAGE INTRO ── */
+  .page-intro {
+    padding: 70px 0 40px;
+    border-bottom: 1px solid var(--border);
+  }
+  .page-intro .eyebrow-large {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11.5px;
+    letter-spacing: 2px;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+  .page-intro h1 {
+    font-size: 44px;
+    font-weight: 600;
+    line-height: 1.15;
+    letter-spacing: -0.5px;
+    margin-bottom: 16px;
+    max-width: 720px;
+  }
+  .page-intro p {
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--text-body);
+    max-width: 640px;
+  }
+
+  @media (max-width: 860px) {
+    .page-intro { padding: 40px 0 24px; }
+    .page-intro h1 { font-size: 32px; }
+  }
+
+</style>
+
+<header>
+  <div class="nav-inner">
+    <a href="index.html" class="nav-name">Saichandar Brahadeesh</a>
+    <nav class="links">
+      <a href="index.html">Home</a>
+      <a href="apps.html">I Build</a>
+      <a href="https://www.linkedin.com/in/saichandarbrahadeesh" target="_blank" class="nav-linkedin">LinkedIn</a>
+    </nav>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <section class="page-intro">
+    <div class="eyebrow-large">I Solve · Case Studies</div>
+    <h1>Problems I chased inside a large company.</h1>
+    <p>Five stories from six years running product at a global industrial manufacturer &mdash; the decisions I made, the reframes that unlocked budget, the bets that changed how we measured quality.</p>
+  </section>
+
+  <!-- CASE STUDIES -->
+  <section id="case-studies" style="padding: 40px 0 80px;">
+    <div class="case-list">
+
+      <!-- ═══════════════ CASE STUDY 1: SHOPFLOOR AI AUDIT ═══════════════ -->
+      <div class="case-card">
+        <div class="case-tag-row">
+          <span class="tag">Systems Thinking · AI Strategy</span>
+          <span class="tag time">Live Interactive Tool</span>
+        </div>
+        <h3>An 8-stage manufacturing journey, nobody had mapped end-to-end</h3>
+        <div class="case-context">Global Industrial Manufacturer · Connected Hardware-Software Products</div>
+
+        <div class="case-visual case-visual-embed">
+          <div class="case-visual-label">Interactive workflow map — click stages, toggle the AI solution overlay</div>
+          <iframe src="case-studies/shopfloor-workflow.html" class="case-iframe" loading="lazy" title="Shopfloor Workflow Interactive Map"></iframe>
+          <a href="case-studies/shopfloor-workflow.html" target="_blank" class="case-iframe-fullscreen">Open full screen ↗</a>
+        </div>
+
+        <div class="case-block">
+          <div class="case-label">Problem</div>
+          <ul>
+            <li><strong>7 functional teams</strong> handled a B2B partner's operation between sales order and shopfloor delivery.</li>
+            <li><strong>8 process stages</strong>, each on a different tool, with manual handoffs at nearly every boundary.</li>
+            <li>Rework and delays were routine, but <strong>no one had ever mapped the full journey</strong> to see where.</li>
+          </ul>
+        </div>
+
+        <div class="case-block">
+          <div class="case-label">Impact</div>
+          <ul>
+            <li><strong>8 AI-pilot concepts</strong> scoped against the audited workflow.</li>
+            <li><strong>1 vendor pilot funded</strong> and progressing (OCR + LLM).</li>
+            <li><strong>7 paused</strong> before any budget committed — vendors couldn't define success against the brief.</li>
+          </ul>
+        </div>
+
+        <div class="case-block">
+          <div class="case-label">Approach</div>
+          <ul>
+            <li>Owned the audit end to end — the interviews, the workflow map, the pilot briefs, the vendor evaluations, the funding calls.</li>
+            <li>Ran qualitative research on the complete workflow as it actually happens — sitting with the people doing the work, not reading the process document.</li>
+            <li>Spent time with an expert on each team to understand their mission, their objectives, and the specific challenges they were navigating day to day.</li>
+            <li>Built the interactive map above, color-coded manual vs. digital — brought clarity to all friction points in one look, so the impact of a potential solution could be visualized better.</li>
+            <li>Designed a distinct AI intervention for each of the 8 stages — an <strong>AR-guided assembly tool</strong> and a <strong>remote AI quality inspection tool</strong> went furthest in vendor conversations.</li>
+          </ul>
+        </div>
+
+        <div class="case-principle">
+          <div class="case-principle-label">Principle</div>
+          <p>Calculated bets upfront protect the budget downstream. A pilot without a success criterion isn't a pilot — it's a subscription to hope. And technology is a tool for the problem, not a reason to go looking for one.</p>
+        </div>
+      </div>
+
+      <!-- ═══════════════ CASE STUDY 2: EPC RELIABILITY ENGINEERING ═══════════════ -->
+      <div class="case-card">
+        <div class="case-tag-row">
+          <span class="tag">Data Strategy · Reliability Engineering</span>
+        </div>
+        <h3>Quality measured by guesswork, until it wasn't</h3>
+        <div class="case-context">Global Industrial Manufacturer · Channel Commissioning Software, 70+ Countries</div>
+
+        <div class="case-visual">
+          <div class="case-visual-label">How the offline-first telemetry loop worked</div>
+          <svg viewBox="0 0 760 220" id="epc-viz">
+            <g transform="translate(40,40)">
+              <rect x="0" y="0" width="150" height="100" rx="8" fill="#161b22" stroke="#30374a" stroke-width="1.5"/>
+              <text x="75" y="22" text-anchor="middle" class="viz-node-title">Field Laptop</text>
+              <text x="75" y="38" text-anchor="middle" class="viz-small">OFFLINE</text>
+              <rect x="14" y="48" width="122" height="14" rx="3" fill="#1c2230"/>
+              <text x="20" y="58" class="viz-small">⚠ error count</text>
+              <rect x="14" y="66" width="122" height="14" rx="3" fill="#1c2230"/>
+              <text x="20" y="76" class="viz-small">⏱ task duration</text>
+              <rect x="14" y="84" width="122" height="10" rx="3" fill="#1c2230"/>
+              <text x="20" y="92" class="viz-small" font-size="8">log file</text>
+              <circle id="epc-status-dot" cx="138" cy="14" r="4" fill="#e3493f"/>
+            </g>
+            <g>
+              <line x1="200" y1="90" x2="330" y2="90" stroke="#30374a" stroke-width="1.5" stroke-dasharray="4 4"/>
+              <circle id="epc-pulse" cx="200" cy="90" r="4" fill="#4d8eff" opacity="0"/>
+              <text x="265" y="78" text-anchor="middle" class="viz-small">on reconnect</text>
+            </g>
+            <g transform="translate(340,30)">
+              <rect x="0" y="0" width="150" height="120" rx="8" fill="#161b22" stroke="#4d8eff" stroke-width="1.5"/>
+              <text x="75" y="22" text-anchor="middle" class="viz-node-title">Google Analytics</text>
+              <text x="75" y="38" text-anchor="middle" class="viz-small">event ingestion</text>
+              <rect x="14" y="50" width="122" height="55" rx="4" fill="#0d1117"/>
+              <rect id="epc-bar1" x="22" y="95" width="14" height="2" fill="#4d8eff"/>
+              <rect id="epc-bar2" x="44" y="95" width="14" height="2" fill="#4d8eff"/>
+              <rect id="epc-bar3" x="66" y="95" width="14" height="2" fill="#4d8eff"/>
+              <rect id="epc-bar4" x="88" y="95" width="14" height="2" fill="#4d8eff"/>
+              <rect id="epc-bar5" x="110" y="95" width="14" height="2" fill="#4d8eff"/>
+            </g>
+            <line x1="500" y1="90" x2="600" y2="90" stroke="#30374a" stroke-width="1.5" stroke-dasharray="4 4"/>
+            <g transform="translate(610,30)">
+              <rect x="0" y="0" width="120" height="120" rx="8" fill="#161b22" stroke="#30374a" stroke-width="1.5"/>
+              <text x="60" y="22" text-anchor="middle" class="viz-node-title" font-size="11">Quality Baseline</text>
+              <text x="60" y="36" text-anchor="middle" class="viz-small">reliability · perf</text>
+              <line x1="16" y1="95" x2="104" y2="95" stroke="#30374a" stroke-width="1"/>
+              <line x1="16" y1="50" x2="16" y2="95" stroke="#30374a" stroke-width="1"/>
+              <polyline points="20,85 38,70 56,75 74,55 92,60 100,45" fill="none" stroke="#4d8eff" stroke-width="2"/>
+            </g>
+          </svg>
+        </div>
+
+        <div class="case-block">
+          <div class="case-label">Problem</div>
+          <ul>
+            <li>Quality was measured by <strong>support tickets</strong> — a lagging signal, and the platform's use was predominantly <strong>offline</strong> by design.</li>
+            <li>Platform ran in <strong>70+ countries</strong>, serving <strong>2,500+ enterprise customers</strong>.</li>
+            <li>No real baseline existed — every quarterly "improvement" claim was an assertion, not a measurement.</li>
+          </ul>
+        </div>
+
+        <div class="case-block">
+          <div class="case-label">Impact</div>
+          <ul>
+            <li><strong>165% YoY revenue growth</strong>, past <strong>€1M ARR</strong> in year one.</li>
+            <li><strong>20% MAU growth.</strong></li>
+          </ul>
+        </div>
+
+        <div class="case-block">
+          <div class="case-label">Approach</div>
+          <p>The platform was built for a predominantly offline, industrial use case — which made "measure everything" a harder problem than it sounds. Engineers flagged that a real telemetry solution wasn't a sprint-sized fix, and the idea sat benched longer than it should have.</p>
+          <p>I chose to run the marathon instead of waiting for a sprint-sized shortcut. Working with the team, we designed an offline-first architecture: data captured locally the moment it happened, synced to the server the moment the device reconnected.</p>
+          <ul>
+            <li><strong>Reliability</strong> — the user's probability of completing the task as intended.</li>
+            <li><strong>Performance</strong> — the probability of completing it within a stipulated time.</li>
+            <li><strong>Crash reports</strong> — user consent to send log files back, building a real dataset to troubleshoot from.</li>
+          </ul>
+          <p>Every use case had to report all three, or it wasn't considered instrumented.</p>
+        </div>
+
+        <div class="case-principle">
+          <div class="case-principle-label">Principle</div>
+          <p>You can't improve what you can't measure.</p>
+        </div>
+      </div>
+
+      <!-- ═══════════════ CASE STUDY 3: HARDWARE × SOFTWARE (PRISMASET) ═══════════════ -->
+      <div class="case-card">
+        <div class="case-tag-row"><span class="tag">Hardware × Software Integration</span></div>
+        <h3>An industry-first switchboard, with no playbook to follow</h3>
+        <div class="case-context">Global Industrial Manufacturer · Connected Hardware + Cloud Software</div>
+
+        <div class="case-visual">
+          <div class="case-visual-label">3-layer architecture — data flowing product → gateway → software</div>
+          <svg viewBox="0 0 760 230" id="switch-viz">
+            <g transform="translate(40,20)">
+              <rect x="0" y="0" width="680" height="50" rx="8" fill="#161b22" stroke="#4d8eff" stroke-width="1.5"/>
+              <text x="20" y="22" class="viz-node-title">Energy Management Software</text>
+              <text x="20" y="38" class="viz-small">operate phase — facility teams consume live data</text>
+            </g>
+            <line x1="380" y1="115" x2="380" y2="75" stroke="#30374a" stroke-width="1.5" stroke-dasharray="4 4"/>
+            <circle id="sw-pulse-1" cx="380" cy="115" r="4" fill="#4d8eff" opacity="0"/>
+            <text x="395" y="98" class="viz-small">LoRaWAN</text>
+            <g transform="translate(220,120)">
+              <rect x="0" y="0" width="320" height="50" rx="8" fill="#161b22" stroke="#30374a" stroke-width="1.5"/>
+              <text x="20" y="22" class="viz-node-title">Edge Gateway</text>
+              <text x="20" y="38" class="viz-small">commission phase — installer configures &amp; pairs devices</text>
+            </g>
+            <line x1="140" y1="215" x2="300" y2="170" stroke="#30374a" stroke-width="1.5" stroke-dasharray="4 4"/>
+            <circle id="sw-pulse-2a" cx="140" cy="215" r="4" fill="#4d8eff" opacity="0"/>
+            <line x1="620" y1="215" x2="460" y2="170" stroke="#30374a" stroke-width="1.5" stroke-dasharray="4 4"/>
+            <circle id="sw-pulse-2b" cx="620" cy="215" r="4" fill="#4d8eff" opacity="0"/>
+            <g transform="translate(40,210)">
+              <rect x="0" y="0" width="200" height="20" rx="6" fill="#161b22" stroke="#30374a" stroke-width="1.5"/>
+              <text x="100" y="14" text-anchor="middle" class="viz-small">Circuit Breaker</text>
+            </g>
+            <g transform="translate(520,210)">
+              <rect x="0" y="0" width="200" height="20" rx="6" fill="#161b22" stroke="#30374a" stroke-width="1.5"/>
+              <text x="100" y="14" text-anchor="middle" class="viz-small">Wireless Sensors (HeatTag / PowerTag)</text>
+            </g>
+          </svg>
+        </div>
+
+        <div class="case-block">
+          <div class="case-label">Problem</div>
+          <ul>
+            <li><strong>Industry-first integration:</strong> circuit breakers, wireless sensors, and cloud dashboard talking natively over LoRaWAN. No playbook.</li>
+            <li>Inherited <strong>mid-flight</strong>: MVP scope set, launch date fixed, timeline slipping, <strong>50+ features queued</strong>.</li>
+          </ul>
+        </div>
+
+        <div class="case-block">
+          <div class="case-label">Impact</div>
+          <ul>
+            <li>Shipped the <strong>industry's first natively-connected switchboard</strong> on the original date.</li>
+            <li>Cut <strong>75% of the feature backlog</strong> to ensure timely delivery to market.</li>
+          </ul>
+        </div>
+
+        <div class="case-block">
+          <div class="case-label">Approach</div>
+          <p>As Product Lead, I owned the complete system value across hardware and software — not just the documentation, the actual design decisions connecting circuit breaker, edge gateway, and energy management software into one coherent flow.</p>
+          <ul>
+            <li>Cut 75% of the backlog against three criteria: <strong>no commercial path, out of MVP scope, or purely cosmetic</strong> — to ensure timely delivery to market.</li>
+            <li>Redirected <strong>6 mobile developers off the configuration tool</strong> and onto other projects. There was no business case for polishing a tool further while the real value proposition — the connected system itself — was still under pilot test.</li>
+          </ul>
+        </div>
+
+        <div class="case-principle">
+          <div class="case-principle-label">Principle</div>
+          <p>A just-enough product on a quick timeline beats a great product built over years. Speed to market is a feature nobody puts on the spec sheet, but customers feel it first.</p>
+        </div>
+      </div>
+
+      <!-- ═══════════════ CASE STUDY 4: CIRCULAR ECONOMY ═══════════════ -->
+      <div class="case-card">
+        <div class="case-tag-row"><span class="tag">0→1 Incubation</span></div>
+        <h3>A business that didn't exist, funded by a reframed pitch</h3>
+        <div class="case-context">Global Industrial Manufacturer · Circular Economy Offer</div>
+
+        <div class="case-visual">
+          <div class="case-visual-label">The technical cycle — three loops back into the value chain, before the material ever hits landfill</div>
+          <svg viewBox="0 0 760 260" id="circular-viz">
+            <!-- Center node -->
+            <circle cx="380" cy="130" r="46" fill="#161b22" stroke="#4d8eff" stroke-width="1.5"/>
+            <text x="380" y="126" text-anchor="middle" class="viz-node-title" font-size="11">Circuit</text>
+            <text x="380" y="140" text-anchor="middle" class="viz-node-title" font-size="11">Breaker</text>
+
+            <!-- Loop 1: Repair (innermost) -->
+            <circle cx="380" cy="130" r="80" fill="none" stroke="#4d8eff" stroke-width="1.5" stroke-dasharray="6 4" opacity="0.9"/>
+            <rect x="440" y="86" width="86" height="26" rx="13" fill="#12161d" stroke="#4d8eff" stroke-width="1.2"/>
+            <text x="483" y="103" text-anchor="middle" class="viz-node-label">Repair</text>
+
+            <!-- Loop 2: Refurbish (middle) -->
+            <circle cx="380" cy="130" r="112" fill="none" stroke="#4d8eff" stroke-width="1.5" stroke-dasharray="6 4" opacity="0.65"/>
+            <rect x="472" y="150" width="104" height="26" rx="13" fill="#12161d" stroke="#4d8eff" stroke-width="1.2" opacity="0.9"/>
+            <text x="524" y="167" text-anchor="middle" class="viz-node-label">Refurbish</text>
+
+            <!-- Loop 3: Recondition (outer) -->
+            <circle cx="380" cy="130" r="144" fill="none" stroke="#4d8eff" stroke-width="1.5" stroke-dasharray="6 4" opacity="0.4"/>
+            <rect x="500" y="210" width="118" height="26" rx="13" fill="#12161d" stroke="#4d8eff" stroke-width="1.2" opacity="0.8"/>
+            <text x="559" y="227" text-anchor="middle" class="viz-node-label">Recondition</text>
+
+            <!-- Arrow indicating flow back to center -->
+            <path d="M 200 130 L 240 130" stroke="#30374a" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+            <text x="120" y="126" class="viz-small">Recalled /</text>
+            <text x="120" y="138" class="viz-small">Used Units</text>
+
+            <path d="M 380 260 L 380 236" stroke="#30374a" stroke-width="1.5" stroke-dasharray="3 3"/>
+            <text x="380" y="255" text-anchor="middle" class="viz-small" opacity="0.7">vs. landfill / virgin material (avoided)</text>
+
+            <defs>
+              <marker id="arrowhead" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+                <path d="M0,0 L6,3 L0,6 Z" fill="#4d8eff"/>
+              </marker>
+            </defs>
+          </svg>
+        </div>
+
+        <div class="case-block">
+          <div class="case-label">Problem</div>
+          <p>Ambitions for sustainability were high — real impact against SDG targets and carbon neutrality. In practice, the harder problem was commercial: avoiding cannibalization of existing revenue streams, protecting profitability, and building a parallel system that could run as seamlessly as the open-loop manufacturing process it sat beside.</p>
+          <ul>
+            <li>No supply process. No factory line. No pricing model. <strong>No budget.</strong></li>
+            <li>Post-pandemic: every capital request scrutinized. <strong>Sustainability-led pitches had been refused twice</strong> — they read as a cost line, not a return.</li>
+          </ul>
+        </div>
+
+        <div class="case-block">
+          <div class="case-label">Impact</div>
+          <ul>
+            <li>The new business model created an <strong>incremental revenue stream</strong>, with net profitability <strong>up to 30% higher</strong> than the traditional offer.</li>
+            <li><strong>World Economic Forum</strong> named the offer a <strong>Lighthouse Project</strong>.</li>
+          </ul>
+        </div>
+
+        <div class="case-block">
+          <div class="case-label">Approach</div>
+          <p><strong>Single point of orchestration</strong> — operating like a founder inside a large company, with no team handed to me. Every function that needed to touch this offer (Legal, Supply Chain, Industrialisation, Branding, Communications, Industrial Design, Sustainability, country sales) I had to convince, align, and coordinate individually.</p>
+          <p><strong>Reframed the pitch.</strong> Prior refusals had led with "sustainability" as the value. I pivoted the narrative: a refurbished-product line is a financial hedge against supply-chain shocks. When raw materials inflate, a second inventory stream lets you keep shipping to customers at healthy margin. Sustainability was also made into sustaining business, sustaining profits, and sustaining the planet.</p>
+          <ul>
+            <li>Won corporate budget in a <strong>10-minute pitch</strong> to senior leadership after two refusals.</li>
+            <li>Scouted usable supply from recalls and cancelled orders. Ran a <strong>conjoint-analysis study with 100+ customers</strong> to set pricing and warranty terms.</li>
+            <li>Earned <strong>LCA certification (Bureau Veritas)</strong> myself to own the environmental case directly in customer conversations.</li>
+          </ul>
+        </div>
+
+        <div class="case-principle">
+          <div class="case-principle-label">Principle</div>
+          <p>A big enough mission doesn't stop at a closed door — it checks for the window. Reframe the pitch, track inventory by hand if that's what it takes, do whatever the venture actually needs. Commercial success comes first; the system to support it gets built after.</p>
+        </div>
+      </div>
+
+      <!-- ═══════════════ CASE STUDY 5: FIRMWARE INSTALLER ═══════════════ -->
+      <div class="case-card">
+        <div class="case-tag-row"><span class="tag">Reliability × UX Design</span></div>
+        <h3>Making a stuck screen feel fast, without a million-dollar fix</h3>
+        <div class="case-context">Global Industrial Manufacturer · Firmware Upgrade Use Case</div>
+
+        <div class="case-visual">
+          <div class="case-visual-label">Laptop commissioning tool, wired to the switchboard it configures</div>
+          <svg viewBox="0 0 760 220" id="installer-viz">
+            <!-- Laptop -->
+            <g transform="translate(50,50)">
+              <rect x="0" y="0" width="140" height="90" rx="6" fill="#161b22" stroke="#4d8eff" stroke-width="1.5"/>
+              <rect x="10" y="10" width="120" height="60" rx="3" fill="#0d1117"/>
+              <text x="70" y="42" text-anchor="middle" class="viz-small" font-size="9">⏳ loading…</text>
+              <rect x="0" y="90" width="140" height="8" rx="2" fill="#30374a"/>
+              <text x="70" y="112" text-anchor="middle" class="viz-node-title" font-size="11">Installer Laptop</text>
+            </g>
+
+            <!-- Cable -->
+            <line x1="190" y1="95" x2="330" y2="95" stroke="#30374a" stroke-width="2"/>
+            <circle id="inst-pulse" cx="190" cy="95" r="4" fill="#4d8eff" opacity="0"/>
+            <text x="260" y="82" text-anchor="middle" class="viz-small">USB / Ethernet</text>
+
+            <!-- Switchboard panel -->
+            <g transform="translate(340,30)">
+              <rect x="0" y="0" width="370" height="140" rx="8" fill="#161b22" stroke="#30374a" stroke-width="1.5"/>
+              <text x="16" y="22" class="viz-node-title" font-size="12">Switchboard Panel</text>
+
+              <rect x="20" y="40" width="140" height="80" rx="6" fill="#0d1117" stroke="#30374a" stroke-width="1.2"/>
+              <text x="90" y="75" text-anchor="middle" class="viz-small">Circuit Breaker</text>
+              <text x="90" y="90" text-anchor="middle" class="viz-small" opacity="0.7">(firmware target)</text>
+
+              <rect x="200" y="40" width="150" height="80" rx="6" fill="#0d1117" stroke="#4d8eff" stroke-width="1.2"/>
+              <text x="275" y="75" text-anchor="middle" class="viz-small">Edge Gateway</text>
+              <text x="275" y="90" text-anchor="middle" class="viz-small" opacity="0.7">(relays update)</text>
+            </g>
+          </svg>
+        </div>
+
+        <div class="case-block">
+          <div class="case-label">Problem</div>
+          <ul>
+            <li>A specific use case had steep <strong>reliability</strong> and <strong>performance</strong> requirements. Root cause: sophisticated interoperability between the hardware connected and the software driving it.</li>
+            <li>In users' own words: <em>"The screen loads for a long time once the action is initiated."</em> <em>"I'm stuck from doing other actions on the software until the firmware update is completed."</em></li>
+          </ul>
+        </div>
+
+        <div class="case-block">
+          <div class="case-label">Impact</div>
+          <ul>
+            <li><strong>30% improvement</strong> in performance metrics for the use case.</li>
+            <li>Enabled a workflow change so users could <strong>work on the software in parallel</strong> while a firmware upgrade was running.</li>
+          </ul>
+        </div>
+
+        <div class="case-block">
+          <div class="case-label">Approach</div>
+          <p>Engineers proposed the technically correct fix: a multi-year, multi-million-dollar hardware platform investment. Not viable on any timeline that mattered to customers waiting today. To prioritize them anyway, we ideated a partial solution and were upfront that a permanent fix would come later.</p>
+          <p>The idea came from something I'd read: lift lobbies install mirrors not to make elevators faster, but to give people something to do while they wait — the wait feels shorter even though it isn't. A friendly deception. We built a spin-off installer that ran in parallel with the firmware upgrade. The upgrade still took just as long — but users could keep working on the software while it happened, so the wait stopped feeling like a wall.</p>
+          <p>Conventional product design says minimize clicks. In a hardware-software system, we found the opposite: fewer clicks meant longer unbroken waits, because the hardware still needed the same time to respond. We redesigned the flow into more micro-actions — more individual clicks, but each one gave the user visible progress and something active to do. More clicks, better experience.</p>
+        </div>
+
+        <div class="case-principle">
+          <div class="case-principle-label">Principle</div>
+          <p>Convention says minimize clicks. But when hardware sets the pace, more micro-actions beat one long wait — customer experience outranks convention, every time.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+</div>
+
+<footer>
+  <div class="wrap footer-inner">
+    <div class="footer-text">Saichandar Brahadeesh</div>
+  </div>
+</footer>
+
+<script>
+  // EPC offline-sync animation: pulse travels laptop -> GA -> dashboard, bars grow, status dot flips green
+  (function() {
+    const pulse = document.getElementById('epc-pulse');
+    const statusDot = document.getElementById('epc-status-dot');
+    const bars = ['epc-bar1','epc-bar2','epc-bar3','epc-bar4','epc-bar5'].map(id => document.getElementById(id));
+    const barHeights = [28, 18, 35, 22, 30];
+    const barYs = [69, 79, 62, 75, 67];
+
+    function cycle() {
+      statusDot.setAttribute('fill', '#e3493f');
+      pulse.setAttribute('opacity', '0');
+      bars.forEach((b) => { b.setAttribute('height', 2); b.setAttribute('y', 97); });
+
+      setTimeout(() => {
+        pulse.setAttribute('opacity', '1');
+        pulse.style.transition = 'cx 1.1s ease-in-out';
+        pulse.setAttribute('cx', 330);
+      }, 1400);
+
+      setTimeout(() => {
+        statusDot.setAttribute('fill', '#3fb950');
+        bars.forEach((b, i) => {
+          b.style.transition = 'height 0.5s ease, y 0.5s ease';
+          b.setAttribute('height', barHeights[i]);
+          b.setAttribute('y', barYs[i]);
+        });
+      }, 2500);
+
+      setTimeout(() => {
+        pulse.style.transition = 'opacity 0.4s ease';
+        pulse.setAttribute('opacity', '0');
+      }, 3600);
+    }
+
+    cycle();
+    setInterval(cycle, 5200);
+  })();
+
+  // Switchboard 3-layer animation: pulses travel product -> gateway -> software
+  (function() {
+    const p1 = document.getElementById('sw-pulse-1');
+    const p2a = document.getElementById('sw-pulse-2a');
+    const p2b = document.getElementById('sw-pulse-2b');
+    if (!p1 || !p2a || !p2b) return;
+
+    function cycle() {
+      [p1, p2a, p2b].forEach(p => { p.setAttribute('opacity', '0'); });
+
+      setTimeout(() => {
+        p2a.setAttribute('opacity', '1');
+        p2b.setAttribute('opacity', '1');
+        p2a.style.transition = 'cx 0.9s ease-in-out, cy 0.9s ease-in-out';
+        p2b.style.transition = 'cx 0.9s ease-in-out, cy 0.9s ease-in-out';
+        p2a.setAttribute('cx', 300); p2a.setAttribute('cy', 170);
+        p2b.setAttribute('cx', 460); p2b.setAttribute('cy', 170);
+      }, 600);
+
+      setTimeout(() => {
+        p2a.style.transition = 'opacity 0.3s ease';
+        p2b.style.transition = 'opacity 0.3s ease';
+        p2a.setAttribute('opacity', '0');
+        p2b.setAttribute('opacity', '0');
+        p1.setAttribute('opacity', '1');
+        p1.style.transition = 'cy 0.9s ease-in-out';
+        p1.setAttribute('cy', 75);
+      }, 1700);
+
+      setTimeout(() => {
+        p1.style.transition = 'opacity 0.3s ease';
+        p1.setAttribute('opacity', '0');
+      }, 2800);
+    }
+
+    cycle();
+    setInterval(cycle, 4200);
+  })();
+
+  // Installer cable pulse: laptop -> switchboard
+  (function() {
+    const pulse = document.getElementById('inst-pulse');
+    if (!pulse) return;
+
+    function cycle() {
+      pulse.setAttribute('opacity', '0');
+      pulse.setAttribute('cx', 190);
+      setTimeout(() => {
+        pulse.setAttribute('opacity', '1');
+        pulse.style.transition = 'cx 1.2s ease-in-out';
+        pulse.setAttribute('cx', 330);
+      }, 300);
+      setTimeout(() => {
+        pulse.style.transition = 'opacity 0.4s ease';
+        pulse.setAttribute('opacity', '0');
+      }, 1600);
+    }
+
+    cycle();
+    setInterval(cycle, 3200);
+  })();
+</script>
+</body>
+</html>
