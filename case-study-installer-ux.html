@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>I Solve — Case Studies · Saichandar Brahadeesh</title>
+<title>Installer UX — Case Study · Saichandar Brahadeesh</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600;6..72,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <!DOCTYPE html>
@@ -515,58 +515,45 @@
   }
 
 </style>
-
 <style>
-  .case-preview-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 24px;
-    padding: 40px 0 80px;
-  }
-  .case-preview-card {
+  .detail-nav-row {
     display: flex;
-    flex-direction: column;
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    overflow: hidden;
-    text-decoration: none;
-    color: var(--text);
-    transition: transform 0.25s, border-color 0.25s, box-shadow 0.25s;
-  }
-  .case-preview-card:hover {
-    transform: translateY(-4px);
-    border-color: var(--accent-border);
-    box-shadow: 0 20px 60px rgba(77, 142, 255, 0.1);
-  }
-  .case-preview-card:first-child {
-    grid-column: 1 / -1;
-  }
-  .case-preview-thumb {
-    background: var(--surface);
-    border-bottom: 1px solid var(--border);
-    padding: 18px 20px 10px;
-    display: flex;
+    justify-content: space-between;
     align-items: center;
-    justify-content: center;
-    min-height: 160px;
+    padding: 24px 0 0;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12.5px;
   }
-  .case-preview-card:first-child .case-preview-thumb {
-    min-height: 120px;
-    padding: 24px;
+  .detail-nav-row a {
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.2s;
   }
-  .case-preview-thumb svg { width: 100%; height: auto; display: block; }
-  .case-preview-body { padding: 22px 24px 26px; flex: 1; display: flex; flex-direction: column; }
-  .case-preview-body h3 { font-size: 19px; font-weight: 600; margin: 10px 0 10px; line-height: 1.3; }
-  .case-preview-body p { font-size: 14px; line-height: 1.65; color: var(--text-body); margin-bottom: 18px; flex: 1; }
-  .case-preview-body .work-meta { margin-bottom: 0; }
-
-  @media (max-width: 860px) {
-    .case-preview-grid { grid-template-columns: 1fr; padding: 20px 0 60px; }
-    .case-preview-card:first-child { grid-column: auto; }
+  .detail-nav-row a:hover { color: var(--accent); }
+  .detail-footer-nav {
+    display: flex;
+    justify-content: space-between;
+    padding: 40px 0 20px;
+    border-top: 1px solid var(--border);
+    margin-top: 20px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+  }
+  .detail-footer-nav a {
+    color: var(--accent);
+    text-decoration: none;
+  }
+  .detail-footer-nav a:hover { text-decoration: underline; }
+  .detail-footer-nav .dfn-label {
+    display: block;
+    color: var(--muted);
+    font-size: 10.5px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 5px;
   }
 </style>
-
+</head>
 
 <body>
 
@@ -575,6 +562,7 @@
     <a href="index.html" class="nav-name">Saichandar Brahadeesh</a>
     <nav class="links">
       <a href="index.html">Home</a>
+      <a href="case-studies.html">I Solve</a>
       <a href="apps.html">I Build</a>
       <a href="https://www.linkedin.com/in/saichandarbrahadeesh" target="_blank" class="nav-linkedin">LinkedIn</a>
     </nav>
@@ -583,171 +571,26 @@
 
 <div class="wrap">
 
-  <section class="page-intro">
-    <div class="eyebrow-large">I Solve · Case Studies</div>
-    <h1>Problems I chased inside a large company.</h1>
-    <p>Five stories from six years running product at a global industrial manufacturer &mdash; the decisions I made, the reframes that unlocked budget, the bets that changed how we measured quality. Pick one.</p>
+  <div class="detail-nav-row">
+    <a href="case-studies.html">← All Case Studies</a>
+  </div>
+
+  <section class="page-intro" style="padding: 24px 0 32px; border-bottom: none;">
+    <div class="eyebrow-large">I Solve · Reliability × UX Design</div>
+    <h1 style="font-size: 36px;">Making a stuck screen feel fast, without a million-dollar fix.</h1>
+    <p>How a trick borrowed from elevator lobbies improved performance 30% without the multi-year hardware investment engineers asked for.</p>
   </section>
 
-  <section class="case-preview-grid">
+  <section style="padding: 0 0 40px;">
+    <div class="case-list">
+      <!-- ═══════════════ CASE STUDY 5: FIRMWARE INSTALLER ═══════════════ -->
+      <div class="case-card">
+        <div class="case-tag-row"><span class="tag">Reliability × UX Design</span></div>
+        <h3>Making a stuck screen feel fast, without a million-dollar fix</h3>
+        <div class="case-context">Global Industrial Manufacturer · Firmware Upgrade Use Case</div>
 
-      <a href="case-study-ai-strategy.html" class="case-preview-card">
-        <div class="case-preview-thumb">
-          <div class="thumb-fallback"><div class="icon" style="font-size:40px;">🗺️</div><span>Interactive Workflow Map</span></div>
-        </div>
-        <div class="case-preview-body">
-          <div class="work-meta">
-            <span class="tag">Systems Thinking · AI Strategy</span>
-            <span class="tag time">Live Interactive Tool</span>
-          </div>
-          <h3>An 8-stage manufacturing journey, nobody had mapped end-to-end</h3>
-          <p>7 teams, 8 stages, and no one owned the full picture. I audited it myself, then scoped 8 AI pilots &mdash; funded 1, killed 7 before they cost a cent.</p>
-          <span class="work-link">Read the full story →</span>
-        </div>
-      </a>
-
-      <a href="case-study-reliability-engineering.html" class="case-preview-card">
-        <div class="case-preview-thumb">
-          <svg viewBox="0 0 760 220" id="epc-viz">
-            <g transform="translate(40,40)">
-              <rect x="0" y="0" width="150" height="100" rx="8" fill="#161b22" stroke="#30374a" stroke-width="1.5"/>
-              <text x="75" y="22" text-anchor="middle" class="viz-node-title">Field Laptop</text>
-              <text x="75" y="38" text-anchor="middle" class="viz-small">OFFLINE</text>
-              <rect x="14" y="48" width="122" height="14" rx="3" fill="#1c2230"/>
-              <text x="20" y="58" class="viz-small">⚠ error count</text>
-              <rect x="14" y="66" width="122" height="14" rx="3" fill="#1c2230"/>
-              <text x="20" y="76" class="viz-small">⏱ task duration</text>
-              <rect x="14" y="84" width="122" height="10" rx="3" fill="#1c2230"/>
-              <text x="20" y="92" class="viz-small" font-size="8">log file</text>
-              <circle id="epc-status-dot" cx="138" cy="14" r="4" fill="#e3493f"/>
-            </g>
-            <g>
-              <line x1="200" y1="90" x2="330" y2="90" stroke="#30374a" stroke-width="1.5" stroke-dasharray="4 4"/>
-              <circle id="epc-pulse" cx="200" cy="90" r="4" fill="#4d8eff" opacity="0"/>
-              <text x="265" y="78" text-anchor="middle" class="viz-small">on reconnect</text>
-            </g>
-            <g transform="translate(340,30)">
-              <rect x="0" y="0" width="150" height="120" rx="8" fill="#161b22" stroke="#4d8eff" stroke-width="1.5"/>
-              <text x="75" y="22" text-anchor="middle" class="viz-node-title">Google Analytics</text>
-              <text x="75" y="38" text-anchor="middle" class="viz-small">event ingestion</text>
-              <rect x="14" y="50" width="122" height="55" rx="4" fill="#0d1117"/>
-              <rect id="epc-bar1" x="22" y="95" width="14" height="2" fill="#4d8eff"/>
-              <rect id="epc-bar2" x="44" y="95" width="14" height="2" fill="#4d8eff"/>
-              <rect id="epc-bar3" x="66" y="95" width="14" height="2" fill="#4d8eff"/>
-              <rect id="epc-bar4" x="88" y="95" width="14" height="2" fill="#4d8eff"/>
-              <rect id="epc-bar5" x="110" y="95" width="14" height="2" fill="#4d8eff"/>
-            </g>
-            <line x1="500" y1="90" x2="600" y2="90" stroke="#30374a" stroke-width="1.5" stroke-dasharray="4 4"/>
-            <g transform="translate(610,30)">
-              <rect x="0" y="0" width="120" height="120" rx="8" fill="#161b22" stroke="#30374a" stroke-width="1.5"/>
-              <text x="60" y="22" text-anchor="middle" class="viz-node-title" font-size="11">Quality Baseline</text>
-              <text x="60" y="36" text-anchor="middle" class="viz-small">reliability · perf</text>
-              <line x1="16" y1="95" x2="104" y2="95" stroke="#30374a" stroke-width="1"/>
-              <line x1="16" y1="50" x2="16" y2="95" stroke="#30374a" stroke-width="1"/>
-              <polyline points="20,85 38,70 56,75 74,55 92,60 100,45" fill="none" stroke="#4d8eff" stroke-width="2"/>
-            </g>
-          </svg>
-        </div>
-        <div class="case-preview-body">
-          <div class="work-meta">
-            <span class="tag">Data Strategy · Reliability Engineering</span>
-          </div>
-          <h3>Quality measured by guesswork, until it wasn't</h3>
-          <p>Support tickets only caught the loudest failures. I built an offline-first telemetry layer that made quality something we could actually measure.</p>
-          <span class="work-link">Read the full story →</span>
-        </div>
-      </a>
-
-      <a href="case-study-hardware-software.html" class="case-preview-card">
-        <div class="case-preview-thumb">
-          <svg viewBox="0 0 760 230" id="switch-viz">
-            <g transform="translate(40,20)">
-              <rect x="0" y="0" width="680" height="50" rx="8" fill="#161b22" stroke="#4d8eff" stroke-width="1.5"/>
-              <text x="20" y="22" class="viz-node-title">Energy Management Software</text>
-              <text x="20" y="38" class="viz-small">operate phase — facility teams consume live data</text>
-            </g>
-            <line x1="380" y1="115" x2="380" y2="75" stroke="#30374a" stroke-width="1.5" stroke-dasharray="4 4"/>
-            <circle id="sw-pulse-1" cx="380" cy="115" r="4" fill="#4d8eff" opacity="0"/>
-            <text x="395" y="98" class="viz-small">LoRaWAN</text>
-            <g transform="translate(220,120)">
-              <rect x="0" y="0" width="320" height="50" rx="8" fill="#161b22" stroke="#30374a" stroke-width="1.5"/>
-              <text x="20" y="22" class="viz-node-title">Edge Gateway</text>
-              <text x="20" y="38" class="viz-small">commission phase — installer configures &amp; pairs devices</text>
-            </g>
-            <line x1="140" y1="215" x2="300" y2="170" stroke="#30374a" stroke-width="1.5" stroke-dasharray="4 4"/>
-            <circle id="sw-pulse-2a" cx="140" cy="215" r="4" fill="#4d8eff" opacity="0"/>
-            <line x1="620" y1="215" x2="460" y2="170" stroke="#30374a" stroke-width="1.5" stroke-dasharray="4 4"/>
-            <circle id="sw-pulse-2b" cx="620" cy="215" r="4" fill="#4d8eff" opacity="0"/>
-            <g transform="translate(40,210)">
-              <rect x="0" y="0" width="200" height="20" rx="6" fill="#161b22" stroke="#30374a" stroke-width="1.5"/>
-              <text x="100" y="14" text-anchor="middle" class="viz-small">Circuit Breaker</text>
-            </g>
-            <g transform="translate(520,210)">
-              <rect x="0" y="0" width="200" height="20" rx="6" fill="#161b22" stroke="#30374a" stroke-width="1.5"/>
-              <text x="100" y="14" text-anchor="middle" class="viz-small">Wireless Sensors (HeatTag / PowerTag)</text>
-            </g>
-          </svg>
-        </div>
-        <div class="case-preview-body">
-          <div class="work-meta">
-            <span class="tag">Hardware × Software Integration</span>
-          </div>
-          <h3>An industry-first switchboard, with no playbook to follow</h3>
-          <p>Inherited a late launch with 50+ features queued. Cut 75% of the backlog and shipped the industry's first natively-connected switchboard on time.</p>
-          <span class="work-link">Read the full story →</span>
-        </div>
-      </a>
-
-      <a href="case-study-circular-economy.html" class="case-preview-card">
-        <div class="case-preview-thumb">
-          <svg viewBox="0 0 760 260" id="circular-viz">
-            <!-- Center node -->
-            <circle cx="380" cy="130" r="46" fill="#161b22" stroke="#4d8eff" stroke-width="1.5"/>
-            <text x="380" y="126" text-anchor="middle" class="viz-node-title" font-size="11">Circuit</text>
-            <text x="380" y="140" text-anchor="middle" class="viz-node-title" font-size="11">Breaker</text>
-
-            <!-- Loop 1: Repair (innermost) -->
-            <circle cx="380" cy="130" r="80" fill="none" stroke="#4d8eff" stroke-width="1.5" stroke-dasharray="6 4" opacity="0.9"/>
-            <rect x="440" y="86" width="86" height="26" rx="13" fill="#12161d" stroke="#4d8eff" stroke-width="1.2"/>
-            <text x="483" y="103" text-anchor="middle" class="viz-node-label">Repair</text>
-
-            <!-- Loop 2: Refurbish (middle) -->
-            <circle cx="380" cy="130" r="112" fill="none" stroke="#4d8eff" stroke-width="1.5" stroke-dasharray="6 4" opacity="0.65"/>
-            <rect x="472" y="150" width="104" height="26" rx="13" fill="#12161d" stroke="#4d8eff" stroke-width="1.2" opacity="0.9"/>
-            <text x="524" y="167" text-anchor="middle" class="viz-node-label">Refurbish</text>
-
-            <!-- Loop 3: Recondition (outer) -->
-            <circle cx="380" cy="130" r="144" fill="none" stroke="#4d8eff" stroke-width="1.5" stroke-dasharray="6 4" opacity="0.4"/>
-            <rect x="500" y="210" width="118" height="26" rx="13" fill="#12161d" stroke="#4d8eff" stroke-width="1.2" opacity="0.8"/>
-            <text x="559" y="227" text-anchor="middle" class="viz-node-label">Recondition</text>
-
-            <!-- Arrow indicating flow back to center -->
-            <path d="M 200 130 L 240 130" stroke="#30374a" stroke-width="1.5" marker-end="url(#arrowhead)"/>
-            <text x="120" y="126" class="viz-small">Recalled /</text>
-            <text x="120" y="138" class="viz-small">Used Units</text>
-
-            <path d="M 380 260 L 380 236" stroke="#30374a" stroke-width="1.5" stroke-dasharray="3 3"/>
-            <text x="380" y="255" text-anchor="middle" class="viz-small" opacity="0.7">vs. landfill / virgin material (avoided)</text>
-
-            <defs>
-              <marker id="arrowhead" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
-                <path d="M0,0 L6,3 L0,6 Z" fill="#4d8eff"/>
-              </marker>
-            </defs>
-          </svg>
-        </div>
-        <div class="case-preview-body">
-          <div class="work-meta">
-            <span class="tag">0→1 Incubation</span>
-          </div>
-          <h3>A business that didn't exist, funded by a reframed pitch</h3>
-          <p>Sustainability had been refused twice as a cost line. I reframed it as a financial hedge &mdash; and walked out with budget in a 10-minute pitch.</p>
-          <span class="work-link">Read the full story →</span>
-        </div>
-      </a>
-
-      <a href="case-study-installer-ux.html" class="case-preview-card">
-        <div class="case-preview-thumb">
+        <div class="case-visual">
+          <div class="case-visual-label">Laptop commissioning tool, wired to the switchboard it configures</div>
           <svg viewBox="0 0 760 220" id="installer-viz">
             <!-- Laptop -->
             <g transform="translate(50,50)">
@@ -778,16 +621,48 @@
             </g>
           </svg>
         </div>
-        <div class="case-preview-body">
-          <div class="work-meta">
-            <span class="tag">Reliability × UX Design</span>
-          </div>
-          <h3>Making a stuck screen feel fast, without a million-dollar fix</h3>
-          <p>Engineers wanted a multi-year hardware overhaul. I borrowed a trick from elevator lobbies instead &mdash; and improved performance 30% in weeks, not years.</p>
-          <span class="work-link">Read the full story →</span>
+
+        <div class="case-block">
+          <div class="case-label">Problem</div>
+          <ul>
+            <li>A specific use case had steep <strong>reliability</strong> and <strong>performance</strong> requirements. Root cause: sophisticated interoperability between the hardware connected and the software driving it.</li>
+            <li>In users' own words: <em>"The screen loads for a long time once the action is initiated."</em> <em>"I'm stuck from doing other actions on the software until the firmware update is completed."</em></li>
+          </ul>
         </div>
-      </a>
+
+        <div class="case-block">
+          <div class="case-label">Impact</div>
+          <ul>
+            <li><strong>30% improvement</strong> in performance metrics for the use case.</li>
+            <li>Enabled a workflow change so users could <strong>work on the software in parallel</strong> while a firmware upgrade was running.</li>
+          </ul>
+        </div>
+
+        <div class="case-block">
+          <div class="case-label">Approach</div>
+          <p>Engineers proposed the technically correct fix: a multi-year, multi-million-dollar hardware platform investment. Not viable on any timeline that mattered to customers waiting today. To prioritize them anyway, we ideated a partial solution and were upfront that a permanent fix would come later.</p>
+          <p>The idea came from something I'd read: lift lobbies install mirrors not to make elevators faster, but to give people something to do while they wait — the wait feels shorter even though it isn't. A friendly deception. We built a spin-off installer that ran in parallel with the firmware upgrade. The upgrade still took just as long — but users could keep working on the software while it happened, so the wait stopped feeling like a wall.</p>
+          <p>Conventional product design says minimize clicks. In a hardware-software system, we found the opposite: fewer clicks meant longer unbroken waits, because the hardware still needed the same time to respond. We redesigned the flow into more micro-actions — more individual clicks, but each one gave the user visible progress and something active to do. More clicks, better experience.</p>
+        </div>
+
+        <div class="case-principle">
+          <div class="case-principle-label">Principle</div>
+          <p>Convention says minimize clicks. But when hardware sets the pace, more micro-actions beat one long wait — customer experience outranks convention, every time.</p>
+        </div>
+      </div>
+    </div>
   </section>
+
+  <div class="detail-footer-nav">
+    <a href="case-study-circular-economy.html">
+      <span class="dfn-label">← Previous</span>
+      Circular Economy
+    </a>
+    <a href="case-study-ai-strategy.html" style="text-align: right;">
+      <span class="dfn-label">Next →</span>
+      AI Strategy
+    </a>
+  </div>
 
 </div>
 
@@ -796,6 +671,32 @@
     <div class="footer-text">Saichandar Brahadeesh</div>
   </div>
 </footer>
+
+  // Installer cable pulse: laptop -> switchboard
+  (function() {
+    const pulse = document.getElementById('inst-pulse');
+    if (!pulse) return;
+
+    function cycle() {
+      pulse.setAttribute('opacity', '0');
+      pulse.setAttribute('cx', 190);
+      setTimeout(() => {
+        pulse.setAttribute('opacity', '1');
+        pulse.style.transition = 'cx 1.2s ease-in-out';
+        pulse.setAttribute('cx', 330);
+      }, 300);
+      setTimeout(() => {
+        pulse.style.transition = 'opacity 0.4s ease';
+        pulse.setAttribute('opacity', '0');
+      }, 1600);
+    }
+
+    cycle();
+    setInterval(cycle, 3200);
+  })();
+</script>
+</body>
+</html>
 
 </body>
 </html>
