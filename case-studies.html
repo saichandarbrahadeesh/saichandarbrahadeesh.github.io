@@ -539,31 +539,25 @@
     border-color: var(--accent-border);
     box-shadow: 0 20px 60px rgba(77, 142, 255, 0.1);
   }
-  .case-preview-card:first-child {
-    grid-column: 1 / -1;
-  }
   .case-preview-thumb {
     background: var(--surface);
     border-bottom: 1px solid var(--border);
-    padding: 18px 20px 10px;
+    padding: 16px 18px;
     display: flex;
     align-items: center;
     justify-content: center;
-    min-height: 160px;
+    height: 190px;
+    overflow: hidden;
   }
-  .case-preview-card:first-child .case-preview-thumb {
-    min-height: 120px;
-    padding: 24px;
-  }
+  .case-preview-thumb svg { max-height: 100%; width: 100%; }
   .case-preview-thumb svg { width: 100%; height: auto; display: block; }
   .case-preview-body { padding: 22px 24px 26px; flex: 1; display: flex; flex-direction: column; }
-  .case-preview-body h3 { font-size: 19px; font-weight: 600; margin: 10px 0 10px; line-height: 1.3; }
+  .case-preview-body h3 { font-size: 18px; font-weight: 600; margin: 10px 0 10px; line-height: 1.35; min-height: 48px; }
   .case-preview-body p { font-size: 14px; line-height: 1.65; color: var(--text-body); margin-bottom: 18px; flex: 1; }
   .case-preview-body .work-meta { margin-bottom: 0; }
 
   @media (max-width: 860px) {
     .case-preview-grid { grid-template-columns: 1fr; padding: 20px 0 60px; }
-    .case-preview-card:first-child { grid-column: auto; }
   }
 </style>
 
@@ -761,20 +755,36 @@
 
       <a href="case-study-installer-ux.html" class="case-preview-card">
         <div class="case-preview-thumb">
-          <svg viewBox="0 0 760 220" id="installer-viz">
-            <!-- Laptop -->
-            <g transform="translate(50,50)">
-              <rect x="0" y="0" width="140" height="90" rx="6" fill="#161b22" stroke="#4d8eff" stroke-width="1.5"/>
-              <rect x="10" y="10" width="120" height="60" rx="3" fill="#0d1117"/>
-              <text x="70" y="42" text-anchor="middle" class="viz-small" font-size="9">⏳ loading…</text>
-              <rect x="0" y="90" width="140" height="8" rx="2" fill="#30374a"/>
-              <text x="70" y="112" text-anchor="middle" class="viz-node-title" font-size="11">Installer Laptop</text>
+          <svg viewBox="0 0 760 220" id="installer-viz-preview">
+            <!-- Laptop with two windows: main software + spin-off installer -->
+            <g transform="translate(35,38)">
+              <rect x="0" y="0" width="180" height="102" rx="6" fill="#161b22" stroke="#4d8eff" stroke-width="1.5"/>
+              <!-- Window 1: main software, still usable -->
+              <rect x="10" y="10" width="100" height="82" rx="3" fill="#0d1117" stroke="#30374a" stroke-width="1"/>
+              <rect x="10" y="10" width="100" height="14" rx="3" fill="#1c2230"/>
+              <circle cx="18" cy="17" r="2.2" fill="#3fb950"/>
+              <text x="60" y="20.5" text-anchor="middle" class="viz-small" font-size="7.5">Main Software</text>
+              <rect x="18" y="32" width="84" height="7" rx="2" fill="#1c2230"/>
+              <rect x="18" y="44" width="66" height="7" rx="2" fill="#1c2230"/>
+              <rect x="18" y="56" width="76" height="7" rx="2" fill="#1c2230"/>
+              <text x="60" y="82" text-anchor="middle" class="viz-small" font-size="7.5" fill="#3fb950">✓ still usable</text>
+              <!-- Window 2: spin-off installer, running in parallel -->
+              <rect x="86" y="26" width="86" height="66" rx="3" fill="#12161d" stroke="#4d8eff" stroke-width="1.2"/>
+              <rect x="86" y="26" width="86" height="13" rx="3" fill="#1c2230"/>
+              <circle cx="93" cy="32.5" r="2.2" fill="#4d8eff"/>
+              <text x="130" y="36" text-anchor="middle" class="viz-small" font-size="7.5">FW Installer</text>
+              <rect x="94" y="52" width="70" height="7" rx="3.5" fill="#0d1117" stroke="#30374a" stroke-width="0.8"/>
+              <rect id="inst-progress-p" x="94" y="52" width="42" height="7" rx="3.5" fill="#4d8eff"/>
+              <text x="130" y="74" text-anchor="middle" class="viz-small" font-size="7.5">updating… 60%</text>
+              <!-- laptop base -->
+              <rect x="0" y="102" width="180" height="8" rx="2" fill="#30374a"/>
+              <text x="90" y="126" text-anchor="middle" class="viz-node-title" font-size="11">Installer Laptop — two windows, in parallel</text>
             </g>
 
             <!-- Cable -->
-            <line x1="190" y1="95" x2="330" y2="95" stroke="#30374a" stroke-width="2"/>
-            <circle id="inst-pulse" cx="190" cy="95" r="4" fill="#4d8eff" opacity="0"/>
-            <text x="260" y="82" text-anchor="middle" class="viz-small">USB / Ethernet</text>
+            <line x1="215" y1="90" x2="330" y2="90" stroke="#30374a" stroke-width="2"/>
+            <circle id="inst-pulse-p" cx="215" cy="90" r="4" fill="#4d8eff" opacity="0"/>
+            <text x="272" y="77" text-anchor="middle" class="viz-small">USB / Ethernet</text>
 
             <!-- Switchboard panel -->
             <g transform="translate(340,30)">
