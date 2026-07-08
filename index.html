@@ -114,7 +114,7 @@
     justify-content: center;
   }
   .hero-photo.photo-fallback::after {
-    content: 'profile.png';
+    content: 'profile.jpg';
     font-family: 'IBM Plex Mono', monospace;
     font-size: 11px;
     color: var(--muted);
@@ -899,7 +899,7 @@
         <h1>The problem is the work.<br/>The product is what's left over.</h1>
         <div class="hero-name">Saichandar Brahadeesh</div>
         <p class="role-line">
-          I take problems apart before I solve them. The right frame unlocks rooms that said no twice. The right cut saves a launch that's already late. The right bet ships in an hour what most people scope for a quarter. Proof is below.
+          I take problems apart before I solve them. The right frame unlocks rooms that said no twice. The right cut saves a launch that's already late. The right bet ships in an hour what a roadmap would scope for a quarter. Proof is below.
         </p>
         <div class="hero-actions">
           <a href="https://www.linkedin.com/in/saichandarbrahadeesh" target="_blank" class="btn btn-primary">
@@ -909,8 +909,8 @@
         </div>
       </div>
       <div class="hero-photo">
-        <img src="profile.png" alt="Saichandar Brahadeesh"
-          onerror="this.style.display='none'; this.parentElement.classList.add('photo-fallback');" />
+        <img src="profile.jpg" alt="Saichandar Brahadeesh"
+          onerror="if(!this.dataset.t){this.dataset.t=1;this.src='profile.png';}else{this.style.display='none'; this.parentElement.classList.add('photo-fallback');}" />
       </div>
     </div>
   </section>
@@ -966,11 +966,61 @@
   // Each carousel auto-advances every 20s; hovering advances immediately to the next slide.
   const carouselData = {
     solve: [
-      { label: "Shopfloor AI Audit", icon: "🗺️" },
-      { label: "Reliability Engineering", icon: "📡" },
-      { label: "Hardware × Software", icon: "🔌" },
-      { label: "Circular Economy", icon: "♻️" },
-      { label: "Firmware Installer", icon: "💻" }
+      { label: "AI Strategy", svg: `<svg viewBox="0 0 320 180" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;background:#12161d">
+<g font-family="monospace" font-size="8" fill="#8b949e">
+<rect x="18" y="45" width="56" height="34" rx="5" fill="#161b22" stroke="#e3493f"/><text x="46" y="65" text-anchor="middle">Lead</text>
+<rect x="94" y="45" width="56" height="34" rx="5" fill="#161b22" stroke="#4d8eff"/><text x="122" y="65" text-anchor="middle">Design</text>
+<rect x="170" y="45" width="56" height="34" rx="5" fill="#161b22" stroke="#e3493f"/><text x="198" y="65" text-anchor="middle">Order</text>
+<rect x="246" y="45" width="56" height="34" rx="5" fill="#161b22" stroke="#4d8eff"/><text x="274" y="65" text-anchor="middle">Config</text>
+<rect x="18" y="105" width="56" height="34" rx="5" fill="#161b22" stroke="#4d8eff"/><text x="46" y="125" text-anchor="middle">BOM</text>
+<rect x="94" y="105" width="56" height="34" rx="5" fill="#161b22" stroke="#e3493f"/><text x="122" y="125" text-anchor="middle">Build</text>
+<rect x="170" y="105" width="56" height="34" rx="5" fill="#161b22" stroke="#e3493f"/><text x="198" y="125" text-anchor="middle">Test</text>
+<rect x="246" y="105" width="56" height="34" rx="5" fill="#161b22" stroke="#4d8eff"/><text x="274" y="125" text-anchor="middle">Deliver</text>
+<line x1="74" y1="62" x2="94" y2="62" stroke="#30374a"/><line x1="150" y1="62" x2="170" y2="62" stroke="#30374a"/><line x1="226" y1="62" x2="246" y2="62" stroke="#30374a"/>
+<line x1="74" y1="122" x2="94" y2="122" stroke="#30374a"/><line x1="150" y1="122" x2="170" y2="122" stroke="#30374a"/><line x1="226" y1="122" x2="246" y2="122" stroke="#30374a"/>
+<text x="160" y="26" text-anchor="middle" fill="#4d8eff" font-size="9">8 STAGES · MANUAL vs DIGITAL</text>
+</g></svg>` },
+      { label: "Reliability Engineering", svg: `<svg viewBox="0 0 320 180" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;background:#12161d">
+<g font-family="monospace" font-size="8" fill="#8b949e">
+<rect x="24" y="60" width="72" height="52" rx="6" fill="#161b22" stroke="#30374a"/><text x="60" y="80" text-anchor="middle">Field</text><text x="60" y="92" text-anchor="middle">Laptop</text><circle cx="88" cy="68" r="3" fill="#e3493f"/>
+<line x1="96" y1="86" x2="150" y2="86" stroke="#30374a" stroke-dasharray="4 3"/><text x="123" y="78" text-anchor="middle" font-size="7">sync</text>
+<rect x="150" y="56" width="72" height="60" rx="6" fill="#161b22" stroke="#4d8eff"/><text x="186" y="76" text-anchor="middle">Telemetry</text><rect x="160" y="86" width="10" height="18" fill="#4d8eff"/><rect x="176" y="92" width="10" height="12" fill="#4d8eff"/><rect x="192" y="82" width="10" height="22" fill="#4d8eff"/>
+<line x1="222" y1="86" x2="252" y2="86" stroke="#30374a" stroke-dasharray="4 3"/>
+<rect x="252" y="60" width="52" height="52" rx="6" fill="#161b22" stroke="#30374a"/><polyline points="260,100 272,88 282,92 296,74" fill="none" stroke="#4d8eff" stroke-width="2"/>
+<text x="160" y="30" text-anchor="middle" fill="#4d8eff" font-size="9">OFFLINE-FIRST QUALITY BASELINE</text>
+</g></svg>` },
+      { label: "Hardware × Software", svg: `<svg viewBox="0 0 320 180" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;background:#12161d">
+<g font-family="monospace" font-size="8" fill="#8b949e">
+<rect x="40" y="28" width="240" height="30" rx="6" fill="#161b22" stroke="#4d8eff"/><text x="160" y="47" text-anchor="middle">Energy Management Software</text>
+<line x1="160" y1="58" x2="160" y2="80" stroke="#30374a" stroke-dasharray="4 3"/>
+<rect x="90" y="80" width="140" height="30" rx="6" fill="#161b22" stroke="#30374a"/><text x="160" y="99" text-anchor="middle">Edge Gateway</text>
+<line x1="120" y1="140" x2="140" y2="110" stroke="#30374a" stroke-dasharray="4 3"/><line x1="200" y1="140" x2="180" y2="110" stroke="#30374a" stroke-dasharray="4 3"/>
+<rect x="55" y="140" width="100" height="22" rx="5" fill="#161b22" stroke="#30374a"/><text x="105" y="154" text-anchor="middle" font-size="7">Circuit Breaker</text>
+<rect x="170" y="140" width="100" height="22" rx="5" fill="#161b22" stroke="#30374a"/><text x="220" y="154" text-anchor="middle" font-size="7">Wireless Sensors</text>
+</g></svg>` },
+      { label: "Circular Economy", svg: `<svg viewBox="0 0 320 180" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;background:#12161d">
+<g font-family="monospace" font-size="8" fill="#8b949e">
+<path d="M 120 140 C 220 140, 220 78, 168 66" fill="none" stroke="#4d8eff" stroke-width="1.6"/>
+<path d="M 126 148 C 285 148, 285 30, 168 30" fill="none" stroke="#4d8eff" stroke-width="1.6"/>
+<rect x="40" y="20" width="120" height="24" rx="12" fill="#161b22" stroke="#30374a"/><text x="100" y="36" text-anchor="middle" font-size="7">Manufacturer</text>
+<line x1="100" y1="44" x2="100" y2="66" stroke="#30374a"/>
+<rect x="40" y="66" width="120" height="24" rx="12" fill="#161b22" stroke="#30374a"/><text x="100" y="82" text-anchor="middle" font-size="7">Service Provider</text>
+<line x1="100" y1="90" x2="100" y2="118" stroke="#30374a"/>
+<circle cx="100" cy="138" r="20" fill="#161b22" stroke="#4d8eff"/><text x="100" y="142" text-anchor="middle" font-size="7">User</text>
+<rect x="180" y="88" width="112" height="20" rx="10" fill="#12161d" stroke="#4d8eff"/><text x="236" y="101" text-anchor="middle" font-size="6.5">Reuse / Redistribute</text>
+<rect x="180" y="120" width="130" height="20" rx="10" fill="#12161d" stroke="#4d8eff"/><text x="245" y="133" text-anchor="middle" font-size="6.5">Refurbish / Remanufacture</text>
+</g></svg>` },
+      { label: "Installer UX", svg: `<svg viewBox="0 0 320 180" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;background:#12161d">
+<g font-family="monospace" font-size="7" fill="#8b949e">
+<rect x="22" y="52" width="110" height="66" rx="5" fill="#161b22" stroke="#4d8eff"/>
+<rect x="30" y="60" width="58" height="50" rx="3" fill="#0d1117" stroke="#30374a"/><text x="59" y="78" text-anchor="middle" font-size="6">Main</text><text x="59" y="88" text-anchor="middle" font-size="6" fill="#3fb950">usable</text>
+<rect x="72" y="70" width="52" height="42" rx="3" fill="#12161d" stroke="#4d8eff"/><text x="98" y="84" text-anchor="middle" font-size="6">Installer</text><rect x="78" y="94" width="40" height="5" rx="2.5" fill="#0d1117"/><rect x="78" y="94" width="24" height="5" rx="2.5" fill="#4d8eff"/>
+<rect x="22" y="118" width="110" height="6" rx="2" fill="#30374a"/>
+<line x1="132" y1="88" x2="185" y2="88" stroke="#30374a" stroke-width="2"/>
+<rect x="185" y="48" width="112" height="80" rx="6" fill="#161b22" stroke="#30374a"/><text x="241" y="64" text-anchor="middle">Switchboard</text>
+<rect x="196" y="74" width="40" height="42" rx="4" fill="#0d1117" stroke="#30374a"/><text x="216" y="98" text-anchor="middle" font-size="5.5">Breaker</text>
+<rect x="246" y="74" width="40" height="42" rx="4" fill="#0d1117" stroke="#4d8eff"/><text x="266" y="98" text-anchor="middle" font-size="5.5">Gateway</text>
+</g></svg>` }
     ],
     build: [
       { label: "Brand Hue Lab", src: "brand-hue-screenshot.png" },
@@ -999,7 +1049,7 @@
         };
         slide.appendChild(img);
       } else {
-        slide.innerHTML = '<div class="thumb-fallback"><div class="icon" style="font-size:36px;">' + item.icon + '</div></div>';
+        slide.innerHTML = item.svg || '<div class="thumb-fallback"><div class="icon" style="font-size:36px;">' + (item.icon||'') + '</div></div>';
       }
       const label = document.createElement('div');
       label.className = 'hub-slide-label';
