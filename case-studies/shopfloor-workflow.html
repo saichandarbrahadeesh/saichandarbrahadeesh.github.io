@@ -519,13 +519,6 @@
     </div>
   </div>
 
-  <!-- CONTEXT FOOTER -->
-  <div style="margin-top:28px; padding-top:18px; border-top:1px solid var(--border2); font-family:'IBM Plex Mono',monospace; font-size:0.58rem; letter-spacing:0.5px; color:var(--text-dim); line-height:1.8;">
-    Built by Saichandar Brahadeesh — a full end-to-end audit of a connected-product manufacturing workflow (lead → delivery), mapping every manual vs. digital handoff across 8 stages and 7 functional teams. The "Solution Layer" toggle overlays AI-pilot concepts I personally ideated and, in two cases, took to vendor proof-of-concept. Anonymized to protect employer-confidential process details.
-    <br><br>
-    <a href="https://saichandarbrahadeesh.github.io" style="color:var(--accent-blue); text-decoration:none;">← Back to Portfolio</a>
-  </div>
-
 </div><!-- /wrap -->
 
 <script>
@@ -622,6 +615,16 @@ window.addEventListener('resize', () => {
   const sh = document.querySelector('.stage-headers');
   document.getElementById('rlSpacer').style.height = sh.offsetHeight + 'px';
 });
+</script>
+<script>
+  (function(){
+    function fit(){
+      var w = document.documentElement.clientWidth;
+      document.body.style.zoom = (w < 1080) ? (w / 1080) : 1;
+    }
+    fit();
+    window.addEventListener('resize', fit);
+  })();
 </script>
 </body>
 </html>
