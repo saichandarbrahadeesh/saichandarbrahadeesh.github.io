@@ -1039,6 +1039,7 @@
     
     ],
     build: [
+      { label: "Trail Ranker", src: "trail-ranker-screenshot.png", srcAlt: "trail-ranker-screenshot.jpg" },
       { label: "Brand Hue Lab", src: "brand-hue-screenshot.png" },
       { label: "FormFlow", src: "formflow-screenshot.png" },
       { label: "Focus Mantra", src: "focus-sound-screenshot.png" },
@@ -1061,6 +1062,11 @@
         img.src = item.src;
         img.alt = item.label;
         img.onerror = function() {
+          if (item.srcAlt && !img.dataset.triedAlt) {
+            img.dataset.triedAlt = '1';
+            img.src = item.srcAlt;
+            return;
+          }
           slide.innerHTML = '<div class="thumb-fallback"><div class="icon">🖼️</div><span>' + item.src + '</span></div>';
         };
         slide.appendChild(img);
